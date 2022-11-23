@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import logo from '../../../assets/img/logo.png';
-import Menu from "./Menu/Menu";
+import Menu from "./Menu/Menu.jsx";
 import {Navbar} from "react-bootstrap";
 import {Container} from "react-bootstrap";
 

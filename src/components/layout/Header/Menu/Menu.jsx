@@ -5,7 +5,9 @@ import {LinkContainer} from 'react-router-bootstrap';
 const links = [
     {name: "Accueil", path: "/"},
     {name: "Événements", path: "/events"},
-    {name: "Données", path: "/data"},
+    {name: "Participants", path: "/participants"},
+    {name: "Adresses", path: "/addresses"},
+    {name: "Données", path: "/data"}
 ]
 
 function Menu() {
