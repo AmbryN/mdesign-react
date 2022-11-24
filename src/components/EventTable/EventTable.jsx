@@ -30,7 +30,7 @@ function EventTable({events, handleUpdate, handleDelete}) {
                     <td>{event.soldHours}</td>
                     <td>{event.startTime ? event.startTime.toString() : ""}</td>
                     <td>{event.endTime ? event.endTime.toString() : ""}</td>
-                    <td>{event.url}</td>
+                    <td><a href={event.url} target="_blank" rel="noopener noreferrer">{event.url}</a></td>
                     <td>
                         <Button className="me-2" value={event.id} variant="warning"
                                 onClick={e => handleUpdate(e.target.value)}>Modifier</Button>
