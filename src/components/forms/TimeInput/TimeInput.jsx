@@ -8,7 +8,7 @@ function TimeInput({ label, name, value, setValue }) {
                           name={name}
                           pattern="[0-9]{2}:[0-9]{2}"
                           value={value}
-                          onChange={e => setValue(e.target.value)}
+                          onChange={e => setValue(e)}
             />
         </Form.Group>
     )

@@ -1,6 +1,7 @@
 import {Table} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
-function EventTable({events}) {
+function EventTable({events, handleUpdate, handleDelete}) {
     return (
         <Table>
             <thead>
@@ -14,6 +15,8 @@ function EventTable({events}) {
                 <th>Heure début</th>
                 <th>Heure fin</th>
                 <th>URL</th>
+                <th>Actions</th>
+
             </tr>
             </thead>
             <tbody>
@@ -28,6 +31,12 @@ function EventTable({events}) {
                     <td>{event.startTime ? event.startTime.toString() : ""}</td>
                     <td>{event.endTime ? event.endTime.toString() : ""}</td>
                     <td>{event.url}</td>
+                    <td>
+                        <Button className="me-2" value={event.id} variant="warning"
+                                onClick={e => handleUpdate(e.target.value)}>Modifier</Button>
+                        <Button value={event.id} variant="danger"
+                                onClick={e => handleDelete(e.target.value)}>Supprimer</Button>
+                    </td>
                 </tr>
             ) }
             </tbody>

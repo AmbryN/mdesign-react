@@ -6,7 +6,7 @@ function DateInput({ label, name, value, setValue }) {
             <Form.Label>{label}</Form.Label>
             <Form.Control name={name} type="date"
                 value={value}
-                onChange={e => setValue(e.target.value)}
+                onChange={e => setValue(e)}
                 required />
         </Form.Group>
     )

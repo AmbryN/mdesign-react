@@ -4,21 +4,41 @@ import AddressTable from "../../components/AddressTable/AddressTable";
 import AddressForm from "../../components/forms/AddressForm/AddressForm.jsx";
 import FormModal from "../../components/layout/FormModal/FormModal";
 import {useMutation, useQuery, useQueryClient} from "react-query";
-import {getAddresses, deleteAddress} from "../../api/addresses.jsx";
+import {deleteAddress, getAddresses, getAddressesWithTypeEvent, postAddress, putAddress} from "../../api/addresses.jsx";
 
 function Addresses() {
-    // Query for addresses in DB
     const queryClient = useQueryClient();
-    const {data: addresses, isLoading, isError, error} = useQuery('addresses', getAddresses);
+
+    // CRUD GET
+    const {data: addresses, isLoading, isError, error: addressError} = useQuery(['addresses', {type: "EVENT"}], getAddressesWithTypeEvent);
+
+    // CRUD POST
+    const postQuery = useMutation(postAddress, {
+        onSuccess: () => {getAddresses
+            queryClient.invalidateQueries(['addresses', {type: "EVENT"}])
+        },
+    })
+
+    // CRUD PUT
+    const putQuery = useMutation(putAddress, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['addresses', {type: "EVENT"}])
+        },
+    })
 
     // CRUD DELETE
     const deleteQuery = useMutation(deleteAddress, {
         onSuccess: () => {
-            queryClient.invalidateQueries('addresses')
+            queryClient.invalidateQueries(['addresses', {type: "EVENT"}])
         },
+        onError: () => {
+            setError({
+                error: "Impossible de supprimer l'adresse => peut-être est-elle liée à un événement ou une personne ?"
+            })
+        }
     })
 
-    // Event handlers
+    // EVENT HANDLERS
     const handleUpdate = (id) => {
         setAddress(addresses.find(address => address.id == id))
         setShowModal(true)
@@ -28,9 +48,10 @@ function Addresses() {
         deleteQuery.mutate(id)
     }
 
-    // Component state
-    const [showModal, setShowModal] = useState(false)
-    const [address, setAddress] = useState({})
+    const handleClose = () => {
+        setShowModal(false);
+        setFormError(null);
+    }
 
     const handleNewAddress = () => {
         setAddress({
@@ -44,26 +65,50 @@ function Addresses() {
         setShowModal(true);
     }
 
-    const handleClose = () => {
-        setShowModal(false);
+    const handleSave = () => {
+        if (address.name !== ""
+            && address.number !== ""
+            && address.street !== ""
+            && address.postalCode !== ""
+            && address.city !== "") {
+            if (address.id == null) {
+                postQuery.mutate(address)
+            } else {
+                putQuery.mutate(address)
+            }
+            handleClose();
+            setFormError(null)
+        } else {
+            setFormError({
+                error: "Un ou des champs sont incomplets"
+            })
+        }
     }
 
+    // COMPONENT STATE
+    const [showModal, setShowModal] = useState(false)
+    const [address, setAddress] = useState({})
+    const [error, setError] = useState(null)
+    const [formError, setFormError] = useState(null)
+
+    // RENDER
     if (isLoading) return <Container><Spinner animation="border" role="status"/></Container>
 
-    if (isError) return <Container><Alert variant="danger">Une erreur est survenue : {error.message}</Alert></Container>
+    if (isError) return <Container><Alert variant="danger">Une erreur est survenue : {addressError.message}</Alert></Container>
 
     return (
         <Container>
-            {deleteQuery.isError &&
-                <Alert variant="danger">Une erreur est survenue : {deleteQuery.error.message}</Alert>}
+            {error &&
+                <Alert variant="danger">Erreur : {error.error}</Alert>}
             <Button className="my-3" variant="primary" onClick={handleNewAddress}>Créer une nouvelle adresse</Button>
             <AddressTable addresses={addresses} handleUpdate={handleUpdate} handleDelete={handleDelete}/>
 
             {showModal
                 &&
                 <FormModal title="Ajouter une adresse" show={showModal}
-                           handleClose={handleClose}>
-                    <AddressForm address={address} setAddress={setAddress} handleClose={handleClose}></AddressForm>
+                           handleClose={handleClose}
+                           handleSave={handleSave}>
+                    <AddressForm address={address} setAddress={setAddress} error={formError}/>
                 </FormModal>
             }
         </Container>

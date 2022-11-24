@@ -5,6 +5,11 @@ const getAddresses = async () => {
     return response.data;
 }
 
+const getAddressesWithTypeEvent = async () => {
+    let response = await axios.get("http://localhost:8080/addresses?type=EVENT")
+    return response.data
+}
+
 const postAddress = async (address) => {
     let response = await axios.post("http://localhost:8080/addresses", address)
     return response.data;
@@ -19,4 +24,4 @@ const deleteAddress = (id) => {
     return axios.delete(`http://localhost:8080/addresses/${id}`);
 }
 
-export { getAddresses, postAddress, putAddress, deleteAddress }
+export { getAddresses, getAddressesWithTypeEvent, postAddress, putAddress, deleteAddress }

@@ -7,7 +7,7 @@ function NumberInput({ label, name, value, setValue }) {
             <Form.Control type="number" min="0"
                           name={name}
                           value={value}
-                          onChange={e => setValue(e.target.value)}
+                          onChange={e => setValue(e)}
                           required />
         </Form.Group>
     )

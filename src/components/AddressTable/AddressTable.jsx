@@ -1,7 +1,7 @@
 import {Table} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-function AddressTable({addresses, handleDelete, handleUpdate}) {
+function AddressTable({addresses, handleUpdate, handleDelete}) {
 
     return (
         <Table>
@@ -17,7 +17,7 @@ function AddressTable({addresses, handleDelete, handleUpdate}) {
             </tr>
             </thead>
             <tbody>
-            { addresses.map(address =>
+            {addresses.map(address =>
                 <tr key={address.id}>
                     <td>{address.id}</td>
                     <td>{address.name}</td>
@@ -26,11 +26,13 @@ function AddressTable({addresses, handleDelete, handleUpdate}) {
                     <td>{address.postalCode}</td>
                     <td>{address.city}</td>
                     <td>
-                        <Button className="me-2" value={address.id} variant="warning" onClick={e => handleUpdate(e.target.value)}>Modifier</Button>
-                        <Button value={address.id} variant="danger" onClick={e => handleDelete(e.target.value)}>Supprimer</Button>
+                        <Button className="me-2" value={address.id} variant="warning"
+                                onClick={e => handleUpdate(e.target.value)}>Modifier</Button>
+                        <Button value={address.id} variant="danger"
+                                onClick={e => handleDelete(e.target.value)}>Supprimer</Button>
                     </td>
                 </tr>
-            ) }
+            )}
             </tbody>
         </Table>
     )

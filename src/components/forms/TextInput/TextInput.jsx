@@ -4,7 +4,7 @@ function TextInput({ label, name, value, setValue }) {
     return (
         <Form.Group className="mb-3" controlId={name}>
             <Form.Label>{label}</Form.Label>
-            <Form.Control name={name} type="text" placeholder="Nom de l'événement"
+            <Form.Control name={name} type="text" placeholder={label}
                 value={value}
                 onChange={e => setValue(e)}
                 required />
