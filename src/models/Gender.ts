@@ -1,4 +1,0 @@
-enum Gender {
-    HOMME,
-    FEMME,
-}

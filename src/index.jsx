@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header/Header.jsx";
 import Events from "./views/Events/Events.jsx";
 import Addresses from "./views/Addresses/Addresses.jsx";
-import EventTypes from "./views/EventTypes/EventTypes.jsx";
+import Types from "./views/Types/Types.jsx";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -23,7 +23,7 @@ root.render(
                     <Route path="/" element={<Home />} />
                     <Route path="/events" element={<Events />} />
                     <Route path="/addresses" element={<Addresses />} />
-                    <Route path="/eventtypes" element={<EventTypes />} />
+                    <Route path="/types" element={<Types />} />
                 </Routes>
             </Router>
         </React.StrictMode>

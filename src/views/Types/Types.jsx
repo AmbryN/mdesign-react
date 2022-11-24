@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {Alert, Spinner, Button, Container} from "react-bootstrap";
-import EventTypesTable from "../../components/EventTypesTable/EventTypesTable.jsx";
+import TypesTable from "../../components/TypesTable/TypesTable.jsx";
 import FormModal from "../../components/layout/FormModal/FormModal";
 import {useMutation, useQuery, useQueryClient} from "react-query";
-import {deleteEventType, getEventTypes, postEventType, putEventType} from "../../api/eventtypes";
+import {deleteEventType, getEventTypes, postEventType} from "../../api/types.jsx";
 import EventTypeForm from "../../components/forms/EventTypeForm/EventTypeForm.jsx";
 
-function EventTypes() {
+function Types() {
     const queryClient = useQueryClient();
 
     // CRUD GET
@@ -77,7 +77,7 @@ function EventTypes() {
             {error &&
                 <Alert variant="danger">Erreur : {error.error}</Alert>}
             <Button className="my-3" variant="primary" onClick={handleNewType}>Créer un nouveau type d'événement</Button>
-            <EventTypesTable eventTypes={eventTypes} handleDelete={handleDelete}/>
+            <TypesTable eventTypes={eventTypes} handleDelete={handleDelete}/>
 
             {showModal
                 &&
@@ -91,4 +91,4 @@ function EventTypes() {
     )
 }
 
-export default EventTypes
+export default Types

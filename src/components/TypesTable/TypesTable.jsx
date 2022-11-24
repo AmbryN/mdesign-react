@@ -1,7 +1,7 @@
 import {Table} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-function EventTypesTable({eventTypes, handleDelete}) {
+function TypesTable({eventTypes, handleDelete}) {
 
     return (
         <Table>
@@ -28,4 +28,4 @@ function EventTypesTable({eventTypes, handleDelete}) {
     )
 }
 
-export default EventTypesTable
+export default TypesTable

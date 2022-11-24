@@ -6,7 +6,7 @@ import Select from '../Select/Select.jsx';
 import {Alert, Form} from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getAddressesWithTypeEvent} from "../../../api/addresses.jsx";
-import {getEventTypes} from "../../../api/eventtypes.jsx";
+import {getEventTypes} from "../../../api/types.jsx";
 
 function EventForm({event, setEvent, error}) {
 

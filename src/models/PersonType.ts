@@ -1,4 +1,0 @@
-enum PersonType {
-    ANIMATEUR,
-    PARTICIPANT,
-}
