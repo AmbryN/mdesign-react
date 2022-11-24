@@ -6,6 +6,7 @@ const links = [
     {name: "Accueil", path: "/"},
     {name: "Événements", path: "/events"},
     {name: "Adresses", path: "/addresses"},
+    {name: "Types d'événements", path: "/eventtypes"}
 ]
 
 function Menu() {

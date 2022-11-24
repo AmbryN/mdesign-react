@@ -1,10 +1,10 @@
 import {useState} from "react";
 import {Alert, Spinner, Button, Container} from "react-bootstrap";
-import AddressTable from "../../components/AddressTable/AddressTable";
 import AddressForm from "../../components/forms/AddressForm/AddressForm.jsx";
 import FormModal from "../../components/layout/FormModal/FormModal";
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import {deleteAddress, getAddresses, getAddressesWithTypeEvent, postAddress, putAddress} from "../../api/addresses.jsx";
+import AddressTable from "../../components/AddressTable/AddressTable.jsx";
 
 function Addresses() {
     const queryClient = useQueryClient();
@@ -60,7 +60,8 @@ function Addresses() {
             number: "",
             street: "",
             postalCode: "",
-            city: ""
+            city: "",
+            type: "EVENT"
         })
         setShowModal(true);
     }

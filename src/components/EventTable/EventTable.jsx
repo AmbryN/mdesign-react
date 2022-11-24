@@ -24,7 +24,7 @@ function EventTable({events, handleUpdate, handleDelete}) {
                 <tr key={event.id}>
                     <td>{event.id}</td>
                     <td>{event.name}</td>
-                    <td>{event.type}</td>
+                    <td>{event.type.name}</td>
                     <td>{`${event.address.number} ${event.address.street} ${event.address.postalCode} ${event.address.city}`}</td>
                     <td>{event.date.toString()}</td>
                     <td>{event.soldHours}</td>
