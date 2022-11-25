@@ -1,21 +1,24 @@
-import EventTable from "../../components/EventTable/EventTable.jsx";
 import { useState } from "react";
-import { Alert, Container, Spinner } from "react-bootstrap";
-import FormModal from "../../components/layout/FormModal/FormModal";
-import Button from "react-bootstrap/Button";
-import EventForm from "../../components/forms/EventForm/EventForm";
+
+import { Alert, Container, Button } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import {
-  deleteEvent,
-  getEvents,
-  postEvent,
-  putEvent,
-} from "../../api/events.jsx";
+
+import { deleteEvent, getEvents, postEvent, putEvent } from "@api/events.jsx";
+import LoadingSpinner from "@components/Spinner/LoadingSpinner";
+import ErrorAlert from "@components/ErrorAlert/ErrorAlert.jsx";
+import EventTable from "../../components/EventTable/EventTable.jsx";
+import EventForm from "../../components/forms/EventForm/EventForm";
+import FormModal from "../../components/layout/FormModal/FormModal";
 
 function Events() {
   const queryClient = useQueryClient();
   // CRUD GET
-  const { data: events, isLoading, isError } = useQuery("events", getEvents);
+  const {
+    data: events,
+    isLoading,
+    isError,
+    error: eventsError,
+  } = useQuery("events", getEvents);
 
   // CRUD POST
   const postQuery = useMutation(postEvent, {
@@ -102,25 +105,13 @@ function Events() {
   const [formError, setFormError] = useState(null);
 
   // RENDER
-  if (isLoading)
-    return (
-      <Container>
-        <Spinner animation="border" role="status" />
-      </Container>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
-  if (isError)
-    return (
-      <Container>
-        <Alert variant="danger">
-          Une erreur est survenue : {error.message}
-        </Alert>
-      </Container>
-    );
+  if (isError) return <ErrorAlert error={eventsError} />;
 
   return (
     <Container>
-      {error && <Alert variant="danger">Erreur : {error.error}</Alert>}
+      {error && <ErrorAlert error={error} />}
       <Button className="my-3" variant="primary" onClick={handleNewEvent}>
         Créer un nouvel événement
       </Button>

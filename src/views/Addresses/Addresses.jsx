@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Alert, Spinner, Button, Container } from "react-bootstrap";
+
+import { Alert, Button, Container } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import {
@@ -12,6 +13,8 @@ import {
 import AddressForm from "../../components/forms/AddressForm/AddressForm.jsx";
 import FormModal from "../../components/layout/FormModal/FormModal";
 import AddressTable from "../../components/AddressTable/AddressTable.jsx";
+import LoadingSpinner from "@components/Spinner/LoadingSpinner";
+import ErrorAlert from "@components/ErrorAlert/ErrorAlert.jsx";
 
 function Addresses() {
   const queryClient = useQueryClient();
@@ -109,25 +112,13 @@ function Addresses() {
   const [formError, setFormError] = useState(null);
 
   // RENDER
-  if (isLoading)
-    return (
-      <Container>
-        <Spinner animation="border" role="status" />
-      </Container>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
-  if (isError)
-    return (
-      <Container>
-        <Alert variant="danger">
-          Une erreur est survenue : {addressError.message}
-        </Alert>
-      </Container>
-    );
+  if (isError) return <ErrorAlert error={addressError} />;
 
   return (
     <Container>
-      {error && <Alert variant="danger">Erreur : {error.error}</Alert>}
+      {error && <ErrorAlert error={error} />}
       <Button className="my-3" variant="primary" onClick={handleNewAddress}>
         Créer une nouvelle adresse
       </Button>

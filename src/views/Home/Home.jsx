@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 
 import { getTodayEvents } from "@api/events.jsx";
 import CurrentEvents from "@components/CurrentEvents/CurrentEvents.jsx";
+import LoadingSpinner from "@components/Spinner/LoadingSpinner";
+import ErrorAlert from "@components/ErrorAlert/ErrorAlert.jsx";
 
 function Home() {
   const {
@@ -13,21 +15,9 @@ function Home() {
   } = useQuery(["events", "today"], getTodayEvents);
 
   // RENDER
-  if (isLoading)
-    return (
-      <Container>
-        <Spinner animation="border" role="status" />
-      </Container>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
-  if (isError)
-    return (
-      <Container>
-        <Alert variant="danger">
-          Une erreur est survenue : {error.message}
-        </Alert>
-      </Container>
-    );
+  if (isError) return <ErrorAlert error={error} />;
 
   return (
     <Container>

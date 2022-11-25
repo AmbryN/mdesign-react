@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import "../src/assets/styles/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Home, Events, Addresses, Types } from "./views";
+import { Home, Events, Addresses, Types, Event } from "./views";
 import Header from "./components/layout/Header/Header.jsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +21,7 @@ root.render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<Event />} />
           <Route path="/addresses" element={<Addresses />} />
           <Route path="/types" element={<Types />} />
         </Routes>
