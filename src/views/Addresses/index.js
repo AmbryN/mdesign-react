@@ -1,3 +1,3 @@
-import Addresses from "./Addresses.jsx";
+import Addresses from "./Addresses.tsx";
 
 export { Addresses };

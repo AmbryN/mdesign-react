@@ -1,3 +1,3 @@
-import Events from "./Events.jsx";
+import Events from "./Events.tsx";
 
 export { Events };

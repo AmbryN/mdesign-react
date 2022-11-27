@@ -1,3 +1,3 @@
-import Types from "./Types.jsx";
+import Types from "./Types.tsx";
 
 export { Types };
