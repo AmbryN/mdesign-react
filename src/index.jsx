@@ -6,9 +6,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import "../src/assets/styles/style.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Home, Events, Addresses, Types, Event } from "./views";
-import Header from "./components/layout/Header/Header.jsx";
+import Header from "@components/layout/Header/Header.tsx";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));

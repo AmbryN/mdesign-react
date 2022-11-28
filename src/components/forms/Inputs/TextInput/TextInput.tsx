@@ -1,4 +1,3 @@
-import { Form } from "react-bootstrap";
 import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
 
 function TextInput({
@@ -13,9 +12,11 @@ function TextInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control
+    <div className="flex flex-col">
+      <label className="mx-2">{label} :</label>
+      <input
+        autoComplete="off"
+        className="p-2 rounded"
         name={name}
         type="text"
         placeholder={label}
@@ -23,7 +24,7 @@ function TextInput({
         onChange={(e) => setValue(e)}
         required
       />
-    </Form.Group>
+    </div>
   );
 }
 

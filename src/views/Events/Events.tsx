@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { Container, Button } from "react-bootstrap";
-
 import { Address, Event, EventType } from "@api/models";
 import {
   useDeleteEvent,
@@ -14,6 +12,7 @@ import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import FormModal from "@components/layout/FormModal/FormModal";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
+import Button from "@components/Button/Button";
 
 function Events() {
   // CRUD GET
@@ -123,10 +122,6 @@ function Events() {
     { header: "Type", name: "type" },
     { header: "Lieu", name: "address" },
     { header: "Date", name: "date" },
-    { header: "Heures vendues", name: "soldHours" },
-    { header: "Heure de début", name: "startTime" },
-    { header: "Heure de fin", name: "endTime" },
-    { header: "Url", name: "url" },
   ];
 
   const formFields = [
@@ -146,15 +141,16 @@ function Events() {
   if (isError) return <ErrorAlert errorMessage={eventsError.message} />;
 
   return (
-    <Container>
+    <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button className="my-3" variant="primary" onClick={handleNewEvent}>
+      <Button className="mt-3" variant="primary" onClick={handleNewEvent}>
         Créer un nouvel événement
       </Button>
 
       <DataTable
         columns={tableColumns}
         rows={events!}
+        hasShowDetails={true}
         hasUpdate={true}
         handleUpdate={handleUpdate}
         hasDelete={true}
@@ -176,7 +172,7 @@ function Events() {
           />
         </FormModal>
       )}
-    </Container>
+    </div>
   );
 }
 

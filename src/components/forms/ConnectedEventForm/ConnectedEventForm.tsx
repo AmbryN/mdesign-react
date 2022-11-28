@@ -1,9 +1,10 @@
-import { Dispatch, useState } from "react";
+import { Dispatch } from "react";
 
 import { Address, EventType } from "@api/models";
 import { useAddresses } from "@api/hooks/useAddresses";
 import { useEventTypes } from "@api/hooks/useEventTypes";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 
 type ConnectedFormProps = {
   fields: [
@@ -19,19 +20,25 @@ type ConnectedFormProps = {
 };
 
 function ConnectedEventForm(props: ConnectedFormProps) {
-  const [selectItems, setSelectItems] = useState(new Map<string, any[]>());
+  const {
+    data: addresses,
+    isLoading: isLoadingAddresses,
+  }: { data?: Address[]; isLoading: boolean } = useAddresses();
 
-  const { data: addresses }: { data?: Address[] } = useAddresses({
-    onSuccess: () => {
-      setSelectItems(selectItems.set("address", addresses!));
-    },
-  });
+  const {
+    data: eventTypes,
+    isLoading: isLoadingTypes,
+  }: {
+    data?: EventType[];
+    isLoading: boolean;
+  } = useEventTypes();
 
-  const { data: eventTypes }: { data?: EventType[] } = useEventTypes({
-    onSuccess: () => {
-      setSelectItems(selectItems.set("type", eventTypes!));
-    },
-  });
+  const selectItems = {
+    type: eventTypes!,
+    address: addresses!,
+  };
+
+  if (isLoadingAddresses || isLoadingTypes) return <LoadingSpinner />;
 
   return <BaseForm selectItems={selectItems} {...props} />;
 }

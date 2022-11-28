@@ -1,4 +1,3 @@
-import { Form } from "react-bootstrap";
 import { ChangeEventHandler } from "react";
 
 function Select({
@@ -15,9 +14,9 @@ function Select({
   setValue: ChangeEventHandler<HTMLSelectElement>;
 }) {
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Select
+    <div className="mb-3">
+      <label>{label}</label>
+      <select
         aria-label={`${name} select`}
         name={name}
         value={value.id}
@@ -30,8 +29,8 @@ function Select({
             {item.name || item}
           </option>
         ))}
-      </Form.Select>
-    </Form.Group>
+      </select>
+    </div>
   );
 }
 

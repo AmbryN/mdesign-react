@@ -1,7 +1,5 @@
 import { ChangeEventHandler, Dispatch } from "react";
 
-import { Alert, Form } from "react-bootstrap";
-
 import {
   DateInput,
   NumberInput,
@@ -9,6 +7,7 @@ import {
   TextInput,
   TimeInput,
 } from "@components/forms/Inputs";
+import { Address, EventType } from "@api/models";
 
 function BaseForm({
   fields,
@@ -25,7 +24,7 @@ function BaseForm({
     }
   ];
   item: any;
-  selectItems: Map<string, any[]>;
+  selectItems?: { type: EventType[]; address: Address[] };
   setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
 }) {
@@ -73,7 +72,7 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            items={selectItems.get(name) || []}
+            items={selectItems[name]}
             value={item[name]}
             setValue={handleChange}
           />
@@ -112,14 +111,12 @@ function BaseForm({
   };
 
   return (
-    <Form>
-      {error.isError && (
-        <Alert variant="danger">Erreur : un ou des champs sont vides !</Alert>
-      )}
+    <form>
+      {error.isError && <div>Erreur : un ou des champs sont vides !</div>}
       {fields.map((field, index) => {
         return fieldSelection(index, field);
       })}
-    </Form>
+    </form>
   );
 }
 

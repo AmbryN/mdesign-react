@@ -1,5 +1,6 @@
-import { Table, Button } from "react-bootstrap";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "@components/Button/Button";
 
 type Column = {
   header: string;
@@ -9,6 +10,7 @@ type Column = {
 function DataTable({
   columns,
   rows,
+  hasShowDetails,
   hasUpdate,
   hasDelete,
   handleUpdate,
@@ -16,17 +18,22 @@ function DataTable({
 }: {
   columns: Column[];
   rows: any[];
+  hasShowDetails?: boolean;
   hasUpdate: boolean;
   hasDelete: boolean;
   handleUpdate: Function;
   handleDelete: Function;
 }) {
+  const navigate = useNavigate();
+
   return (
-    <Table>
+    <table className="table-auto text-center">
       <thead>
         <tr>
           {columns.map((column) => (
-            <th key={column.header}>{column.header}</th>
+            <th className="px-5" key={column.header}>
+              {column.header}
+            </th>
           ))}
           {(hasUpdate || hasDelete) && <th>Actions</th>}
         </tr>
@@ -35,15 +42,22 @@ function DataTable({
         {rows.map((row) => (
           <tr key={row.id}>
             {columns.map((column) => (
-              <td key={`${row.id}-${column.name}`}>
+              <td className="px-5" key={`${row.id}-${column.name}`}>
                 {row[column.name].name || row[column.name]}
               </td>
             ))}
             {(hasUpdate || hasDelete) && (
-              <td>
+              <td className="flex flex-wrap">
+                {hasShowDetails && (
+                  <Button
+                    variant="primary"
+                    onClick={() => navigate(`./${row.id}`)}
+                  >
+                    Voir
+                  </Button>
+                )}
                 {hasUpdate && (
                   <Button
-                    className="me-2"
                     variant="warning"
                     onClick={() => handleUpdate(row.id)}
                   >
@@ -60,7 +74,7 @@ function DataTable({
           </tr>
         ))}
       </tbody>
-    </Table>
+    </table>
   );
 }
 

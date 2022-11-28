@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { Button, Container } from "react-bootstrap";
-
 import { EventType } from "@api/models";
 import {
   useDeleteEventType,
@@ -13,6 +11,7 @@ import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
+import PrimaryButton from "@components/Button/PrimaryButton";
 
 function Types() {
   // CRUD GET
@@ -96,11 +95,15 @@ function Types() {
   if (isError) return <ErrorAlert errorMessage={eventTypesError.message} />;
 
   return (
-    <Container>
+    <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button className="my-3" variant="primary" onClick={handleNewType}>
+      <PrimaryButton
+        variant="primary"
+        textColor="white"
+        onClick={handleNewType}
+      >
         Créer un nouveau type d'événement
-      </Button>
+      </PrimaryButton>
       <DataTable
         columns={tableColumns}
         rows={eventTypes!}
@@ -125,7 +128,7 @@ function Types() {
           />
         </FormModal>
       )}
-    </Container>
+    </div>
   );
 }
 

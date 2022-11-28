@@ -1,11 +1,5 @@
-import { Container, Spinner } from "react-bootstrap";
-
 function LoadingSpinner() {
-  return (
-    <Container>
-      <Spinner animation="border" role="status" />
-    </Container>
-  );
+  return <div>Récupération des données</div>;
 }
 
 export default LoadingSpinner;

@@ -1,5 +1,4 @@
-import { Form } from "react-bootstrap";
-import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
+import { ChangeEventHandler } from "react";
 
 function DateInput({
   label,
@@ -13,16 +12,16 @@ function DateInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control
+    <div className="mb-3">
+      <label>{label}</label>
+      <input
         name={name}
         type="date"
         value={value}
         onChange={(e) => setValue(e)}
         required
       />
-    </Form.Group>
+    </div>
   );
 }
 

@@ -1,4 +1,3 @@
-import { Form } from "react-bootstrap";
 import { ChangeEventHandler } from "react";
 
 function NumberInput({
@@ -13,9 +12,9 @@ function NumberInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control
+    <div className="mb-3">
+      <label>{label}</label>
+      <input
         type="number"
         min="0"
         name={name}
@@ -23,7 +22,7 @@ function NumberInput({
         onChange={(e) => setValue(e)}
         required
       />
-    </Form.Group>
+    </div>
   );
 }
 

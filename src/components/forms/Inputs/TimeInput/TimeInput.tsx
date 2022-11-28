@@ -1,5 +1,4 @@
-import { Form } from "react-bootstrap";
-import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
+import { ChangeEventHandler } from "react";
 
 function TimeInput({
   label,
@@ -13,16 +12,16 @@ function TimeInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control
+    <div className="mb-3">
+      <label>{label}</label>
+      <input
         type="time"
         name={name}
         pattern="[0-9]{2}:[0-9]{2}"
         value={value}
         onChange={(e) => setValue(e)}
       />
-    </Form.Group>
+    </div>
   );
 }
 

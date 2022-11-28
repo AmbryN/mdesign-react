@@ -1,12 +1,5 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-} from "react-bootstrap";
 import { ReactNode } from "react";
+import Button from "@components/Button/Button";
 
 function FormModal({
   title,
@@ -22,20 +15,20 @@ function FormModal({
   children: ReactNode;
 }) {
   return (
-    <Modal show={show}>
-      <ModalHeader closeButton onClick={handleClose}>
-        <ModalTitle>{title}</ModalTitle>
-      </ModalHeader>
-      <ModalBody>{children}</ModalBody>
-      <ModalFooter>
+    <div>
+      <div onClick={handleClose}>
+        <span>{title}</span>
+      </div>
+      <div>{children}</div>
+      <div>
         <Button variant="secondary" onClick={handleClose}>
           Annuler
         </Button>
         <Button variant="primary" onClick={handleSave}>
           Enregistrer
         </Button>
-      </ModalFooter>
-    </Modal>
+      </div>
+    </div>
   );
 }
 

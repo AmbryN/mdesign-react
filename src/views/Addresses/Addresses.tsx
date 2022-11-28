@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { Button, Container } from "react-bootstrap";
-
 import { Address } from "@api/models";
 import {
   useAddresses,
@@ -15,6 +13,7 @@ import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
+import PrimaryButton from "@components/Button/PrimaryButton";
 
 function Addresses() {
   // CRUD GET
@@ -147,11 +146,15 @@ function Addresses() {
     return <ErrorAlert errorMessage={addressesError.message} />;
 
   return (
-    <Container>
+    <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button className="my-3" variant="primary" onClick={handleNewAddress}>
+      <PrimaryButton
+        variant="primary"
+        textColor="white"
+        onClick={handleNewAddress}
+      >
         Créer une nouvelle adresse
-      </Button>
+      </PrimaryButton>
 
       <DataTable
         columns={tableColumns}
@@ -177,7 +180,7 @@ function Addresses() {
           />
         </FormModal>
       )}
-    </Container>
+    </div>
   );
 }
 
