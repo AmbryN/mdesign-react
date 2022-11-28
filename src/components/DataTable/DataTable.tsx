@@ -47,7 +47,7 @@ function DataTable({
               </td>
             ))}
             {(hasUpdate || hasDelete) && (
-              <td className="flex flex-wrap">
+              <td className="flex flex-wrap justify-center">
                 {hasShowDetails && (
                   <Button
                     variant="primary"

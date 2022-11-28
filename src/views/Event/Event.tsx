@@ -47,7 +47,8 @@ function Event() {
 
   const [showModal, setShowModal] = useState(false);
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading || isLoadingParticipants || isLoadingHosts)
+    return <LoadingSpinner />;
 
   if (isError) return <ErrorAlert errorMessage={error.message} />;
 

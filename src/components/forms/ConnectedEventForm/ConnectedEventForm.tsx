@@ -33,10 +33,10 @@ function ConnectedEventForm(props: ConnectedFormProps) {
     isLoading: boolean;
   } = useEventTypes();
 
-  const selectItems = {
-    type: eventTypes!,
-    address: addresses!,
-  };
+  let selectItems = new Map<String, any[]>();
+
+  selectItems.set("type", eventTypes!);
+  selectItems.set("address", addresses!);
 
   if (isLoadingAddresses || isLoadingTypes) return <LoadingSpinner />;
 

@@ -11,6 +11,11 @@ const getPersons = async () => {
   return personsArray.parse(response.data);
 };
 
+const postPerson = async (person: Person) => {
+  let response = await axios.post(`${baseUrl}/persons`, person);
+  return response.data;
+};
+
 const getParticipants = async (eventId: string) => {
   let response = await axios.get(`${baseUrl}/events/${eventId}/participants`);
   return personsArray.parse(response.data);
@@ -55,6 +60,7 @@ const getPersonByName = async (name: string) => {
 
 export {
   getPersons,
+  postPerson,
   getParticipants,
   postParticipant,
   deleteParticipant,

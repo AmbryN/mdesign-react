@@ -3,8 +3,9 @@ import { useDebounce } from "@api/hooks/useDebounce";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { getPersonByName } from "@api/persons";
+import SearchResults from "@components/layout/SearchResults/SearchResults";
 
-function SearchBar({
+export default function SearchBar({
   label,
   name,
   select,
@@ -15,15 +16,27 @@ function SearchBar({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedTerm = useDebounce(searchTerm, 300);
+  const [show, setShow] = useState(false);
 
   const {
     data: results,
     isError,
-    isFetched,
     error,
-  } = useQuery(["persons", debouncedTerm], () =>
-    getPersonByName(debouncedTerm)
+  } = useQuery(
+    ["persons", debouncedTerm],
+    () => getPersonByName(debouncedTerm),
+    {
+      onSuccess: () => {
+        setShow(true);
+      },
+    }
   );
+
+  const onSelect = (selectedItem: object) => {
+    select(selectedItem);
+    setShow(false);
+    setSearchTerm("");
+  };
 
   return (
     <div className="my-3">
@@ -34,17 +47,10 @@ function SearchBar({
         setValue={(e) => setSearchTerm(e.target.value)}
       />
       {isError && <div>{error.message}</div>}
-      {isFetched && (
-        <ul className="flex flex-col mt-3 bg-white divide-y">
-          {results!.map((result, index) => (
-            <button key={index} onClick={() => select(result)}>
-              <li className="p-3 hover:bg-gray-300">{`${result.lastName} ${result.firstName}`}</li>
-            </button>
-          ))}
-        </ul>
+
+      {show && results && (
+        <SearchResults results={results} onSelect={onSelect} />
       )}
     </div>
   );
 }
-
-export default SearchBar;

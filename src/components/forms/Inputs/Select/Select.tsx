@@ -27,7 +27,7 @@ function Select({
       >
         <option></option>
         {items.map((item, index) => (
-          <option key={index} value={item.id}>
+          <option key={index} value={item.id || item}>
             {item.name || item}
           </option>
         ))}

@@ -1,6 +1,5 @@
 import { ChangeEventHandler, Dispatch, MouseEventHandler } from "react";
 
-import { Address, EventType } from "@api/models";
 import Button from "@components/Button/Button";
 import {
   DateInput,
@@ -29,7 +28,7 @@ function BaseForm({
     }
   ];
   item: any;
-  selectItems?: { type: EventType[]; address: Address[] };
+  selectItems?: Map<String, any[]>;
   setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
   handleClose: MouseEventHandler<HTMLButtonElement>;
@@ -79,7 +78,7 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            items={selectItems[name]}
+            items={selectItems.get(name)}
             value={item[name]}
             setValue={handleChange}
           />

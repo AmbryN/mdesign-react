@@ -26,9 +26,15 @@ export default function PersonList({
       -center mb-3"
       >
         <h2 className="mr-2">{name}</h2>
-        <button onClick={toggleSearch} className="material-icons">
-          add
-        </button>
+        {!showSearch ? (
+          <button onClick={toggleSearch} className="material-icons">
+            add
+          </button>
+        ) : (
+          <button onClick={toggleSearch} className="material-icons">
+            remove
+          </button>
+        )}
       </div>
       <div>
         {showSearch && <SearchBar label="Nom" name="name" select={addPerson} />}

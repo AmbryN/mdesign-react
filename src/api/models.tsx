@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const AddressSchema = z.object({
   id: z.number().optional(),
-  name: z.string(),
+  name: z.string().nullable(),
   number: z.string(),
   street: z.string(),
   postalCode: z.string(),
@@ -16,6 +16,11 @@ const PersonSchema = z.object({
   id: z.number().optional(),
   firstName: z.string(),
   lastName: z.string(),
+  gender: z.string(),
+  dateOfBirth: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  address: AddressSchema,
 });
 
 type Person = z.infer<typeof PersonSchema>;
