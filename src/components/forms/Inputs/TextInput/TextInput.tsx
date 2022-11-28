@@ -12,8 +12,10 @@ function TextInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <div className="flex flex-col">
-      <label className="mx-2">{label} :</label>
+    <div className="flex flex-col m-2">
+      <label htmlFor={name} className="mx-2">
+        {label} :
+      </label>
       <input
         autoComplete="off"
         className="p-2 rounded"

@@ -6,7 +6,7 @@ export default function EventDescription({ event }: { event: Event }) {
   return (
     <div className="w-5/6 flex flex-col mt-3 p-4 font-sans rounded bg-gray-200">
       <div className="mb-3">
-        <h1 className="text-2xl font-bold mb-0">{name}</h1>
+        <h1>{name}</h1>
         {url && (
           <a className="opacity-50" href={url}>
             {url}

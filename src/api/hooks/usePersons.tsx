@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
+  deleteHost,
   deleteParticipant,
+  getHosts,
   getParticipants,
   getPersons,
+  postHost,
   postParticipant,
 } from "@api/persons";
 import { Person } from "@api/models";
@@ -44,9 +47,36 @@ const useDeleteParticipant = (eventId: string, options?: any) => {
   );
 };
 
+const useHosts = (eventId: string, options?: any) => {
+  return useQuery(["hosts", eventId], () => getHosts(eventId), options);
+};
+
+const usePostHost = (eventId: string, options?: any) => {
+  const queryClient = useQueryClient();
+  return useMutation((host: Person) => postHost(eventId, host), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["hosts", eventId]);
+    },
+    ...options,
+  });
+};
+
+const useDeleteHost = (eventId: string, options?: any) => {
+  const queryClient = useQueryClient();
+  return useMutation((hostId: number) => deleteHost(eventId, hostId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["hosts", eventId]);
+    },
+    ...options,
+  });
+};
+
 export {
   usePersons,
   useParticipants,
   usePostParticipant,
   useDeleteParticipant,
+  useHosts,
+  usePostHost,
+  useDeleteHost,
 };

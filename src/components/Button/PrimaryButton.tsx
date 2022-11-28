@@ -10,7 +10,7 @@ export default function PrimaryButton({
 }) {
   return (
     <button
-      className={`${className} mx-1 w-24 rounded bg-blue-500 text-white`}
+      className={`${className} w-24 rounded bg-blue-500 text-white`}
       {...restProps}
     >
       {children}

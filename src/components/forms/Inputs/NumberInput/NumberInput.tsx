@@ -12,9 +12,12 @@ function NumberInput({
   setValue: ChangeEventHandler<any>;
 }) {
   return (
-    <div className="mb-3">
-      <label>{label}</label>
+    <div className="flex flex-col m-2">
+      <label htmlFor={name} className="mx-2">
+        {label}
+      </label>
       <input
+        className="p-2 rounded"
         type="number"
         min="0"
         name={name}

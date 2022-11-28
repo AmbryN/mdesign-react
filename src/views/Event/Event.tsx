@@ -7,7 +7,14 @@ import PersonList from "@components/PersonList/PersonList";
 import { useEvent } from "@api/hooks/useEvents";
 import { useState } from "react";
 import { Person } from "@api/models";
-import { useParticipants } from "@api/hooks/usePersons";
+import {
+  useDeleteHost,
+  useDeleteParticipant,
+  useHosts,
+  useParticipants,
+  usePostHost,
+  usePostParticipant,
+} from "@api/hooks/usePersons";
 
 function Event() {
   const { id } = useParams();
@@ -15,7 +22,28 @@ function Event() {
 
   const { data: participants, isLoading: isLoadingParticipants } =
     useParticipants(id!);
-  const hosts = [] as Person[];
+  const { data: hosts, isLoading: isLoadingHosts } = useHosts(id!);
+
+  const postParticipant = usePostParticipant(id!);
+  const deleteParticipant = useDeleteParticipant(id!);
+  const postHost = usePostHost(id!);
+  const deleteHost = useDeleteHost(id!);
+
+  const addParticipant = (participant: Person) => {
+    postParticipant.mutate(participant);
+  };
+
+  const removeParticipant = (personId: number) => {
+    deleteParticipant.mutate(personId);
+  };
+
+  const addHost = (host: Person) => {
+    postHost.mutate(host);
+  };
+
+  const removeHost = (personId: number) => {
+    deleteHost.mutate(personId);
+  };
 
   const [showModal, setShowModal] = useState(false);
 
@@ -26,8 +54,18 @@ function Event() {
   return (
     <div className="flex flex-col items-center">
       <EventDescription event={event!} />
-      <PersonList name="Participants" eventId={id!} persons={participants} />
-      <PersonList name="Animateurs" eventId={id!} persons={hosts} />
+      <PersonList
+        name="Participants"
+        persons={participants!}
+        addPerson={addParticipant}
+        deletePerson={removeParticipant}
+      />
+      <PersonList
+        name="Animateurs"
+        persons={hosts!}
+        addPerson={addHost}
+        deletePerson={removeHost}
+      />
     </div>
   );
 }

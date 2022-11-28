@@ -6,12 +6,11 @@ import {
   useEventTypes,
   usePostEventType,
 } from "@api/hooks/useEventTypes";
-import FormModal from "@components/layout/FormModal/FormModal";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import PrimaryButton from "@components/Button/PrimaryButton";
+import Button from "@components/Button/Button";
 
 function Types() {
   // CRUD GET
@@ -49,7 +48,7 @@ function Types() {
   };
 
   const handleClose = () => {
-    setShowModal(false);
+    setShowForm(false);
     setFormError({
       isError: false,
       message: "",
@@ -60,7 +59,7 @@ function Types() {
     setType({
       name: "",
     });
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleSave = () => {
@@ -77,7 +76,7 @@ function Types() {
   };
 
   // COMPONENT STATE
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [type, setType] = useState({} as EventType);
   const [error, setError] = useState({ isError: false, message: "" });
   const [formError, setFormError] = useState({ isError: false, message: "" });
@@ -97,13 +96,22 @@ function Types() {
   return (
     <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <PrimaryButton
-        variant="primary"
-        textColor="white"
-        onClick={handleNewType}
-      >
-        Créer un nouveau type d'événement
-      </PrimaryButton>
+      <Button variant="primary" onClick={handleNewType}>
+        Créer un type
+      </Button>
+
+      {showForm && (
+        <BaseForm
+          title="Ajouter un type"
+          handleClose={handleClose}
+          handleSave={handleSave}
+          fields={formFields}
+          item={type}
+          setItem={setType}
+          error={formError}
+        />
+      )}
+
       <DataTable
         columns={tableColumns}
         rows={eventTypes!}
@@ -112,22 +120,6 @@ function Types() {
         handleDelete={handleDelete}
         handleUpdate={() => {}}
       />
-
-      {showModal && (
-        <FormModal
-          title="Ajouter un type"
-          show={showModal}
-          handleClose={handleClose}
-          handleSave={handleSave}
-        >
-          <BaseForm
-            fields={formFields}
-            item={type}
-            setItem={setType}
-            error={formError}
-          />
-        </FormModal>
-      )}
     </div>
   );
 }

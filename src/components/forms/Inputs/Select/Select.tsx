@@ -14,10 +14,12 @@ function Select({
   setValue: ChangeEventHandler<HTMLSelectElement>;
 }) {
   return (
-    <div className="mb-3">
-      <label>{label}</label>
+    <div className="flex flex-col">
+      <label htmlFor={name} className={"mx-2"}>
+        {label}
+      </label>
       <select
-        aria-label={`${name} select`}
+        className="p-2 rounded m-2"
         name={name}
         value={value.id}
         onChange={(e) => setValue(e)}

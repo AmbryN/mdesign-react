@@ -27,7 +27,7 @@ function DataTable({
   const navigate = useNavigate();
 
   return (
-    <table className="table-auto text-center">
+    <table className="w-5/6 mt-3 table-auto text-center">
       <thead>
         <tr>
           {columns.map((column) => (

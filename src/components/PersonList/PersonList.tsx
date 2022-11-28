@@ -1,35 +1,22 @@
 import { Person } from "@api/models";
 import { useState } from "react";
 import SearchBar from "@components/layout/SearchBar/SearchBar";
-import {
-  useDeleteParticipant,
-  usePostParticipant,
-} from "@api/hooks/usePersons";
 
 export default function PersonList({
   name,
   persons,
-  eventId,
+  addPerson,
+  deletePerson,
 }: {
   name: string;
   persons: Person[];
-  eventId: string;
+  addPerson: Function;
+  deletePerson: Function;
 }) {
   const [showSearch, setShowSearch] = useState(false);
 
-  const postParticipant = usePostParticipant(eventId);
-  const deleteParticipant = useDeleteParticipant(eventId);
-
-  const addParticipant = (participant: Person) => {
-    postParticipant.mutate(participant);
-  };
-
   const toggleSearch = () => {
     setShowSearch(!showSearch);
-  };
-
-  const removeParticipant = (personId: number) => {
-    deleteParticipant.mutate(personId);
   };
 
   return (
@@ -44,15 +31,13 @@ export default function PersonList({
         </button>
       </div>
       <div>
-        {showSearch && (
-          <SearchBar label="Nom" name="name" select={addParticipant} />
-        )}
+        {showSearch && <SearchBar label="Nom" name="name" select={addPerson} />}
         <ul className="divide-y divide-gray-400">
           {persons.map((person, index) => {
             return (
               <li key={index} className="flex justify-between">
                 <span>{`${person.lastName} ${person.firstName}`}</span>
-                <button onClick={() => removeParticipant(person.id!)}>
+                <button onClick={() => deletePerson(person.id!)}>
                   <i className="material-icons">delete</i>
                 </button>
               </li>

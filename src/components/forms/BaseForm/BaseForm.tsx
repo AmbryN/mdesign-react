@@ -1,5 +1,7 @@
-import { ChangeEventHandler, Dispatch } from "react";
+import { ChangeEventHandler, Dispatch, MouseEventHandler } from "react";
 
+import { Address, EventType } from "@api/models";
+import Button from "@components/Button/Button";
 import {
   DateInput,
   NumberInput,
@@ -7,15 +9,18 @@ import {
   TextInput,
   TimeInput,
 } from "@components/forms/Inputs";
-import { Address, EventType } from "@api/models";
 
 function BaseForm({
+  title,
   fields,
   item,
   selectItems,
   setItem,
   error,
+  handleClose,
+  handleSave,
 }: {
+  title: string;
   fields: [
     {
       label: string;
@@ -27,6 +32,8 @@ function BaseForm({
   selectItems?: { type: EventType[]; address: Address[] };
   setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
+  handleClose: MouseEventHandler<HTMLButtonElement>;
+  handleSave: MouseEventHandler<HTMLButtonElement>;
 }) {
   const handleChange: ChangeEventHandler<HTMLInputElement> &
     ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -111,12 +118,24 @@ function BaseForm({
   };
 
   return (
-    <form>
-      {error.isError && <div>Erreur : un ou des champs sont vides !</div>}
-      {fields.map((field, index) => {
-        return fieldSelection(index, field);
-      })}
-    </form>
+    <div className="flex flex-col w-5/6 p-3 my-3 bg-gray-200 rounded">
+      <div className="flex justify-between">
+        <h1 className="h1">{title}</h1>
+        <Button variant="warning" onClick={handleClose}>
+          Fermer
+        </Button>
+      </div>
+      {error.isError && <div>error.message</div>}
+      <form className="flex flex-wrap justify-between">
+        {error.isError && <div>Erreur : un ou des champs sont vides !</div>}
+        {fields.map((field, index) => {
+          return fieldSelection(index, field);
+        })}
+      </form>
+      <Button className="self-end" variant="primary" onClick={handleSave}>
+        Enregistrer
+      </Button>
+    </div>
   );
 }
 

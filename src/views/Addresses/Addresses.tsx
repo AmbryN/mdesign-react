@@ -8,12 +8,11 @@ import {
   usePutAddress,
 } from "@api/hooks/useAddresses";
 
-import FormModal from "@components/layout/FormModal/FormModal";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import PrimaryButton from "@components/Button/PrimaryButton";
+import Button from "@components/Button/Button";
 
 function Addresses() {
   // CRUD GET
@@ -60,7 +59,7 @@ function Addresses() {
       addresses!.find((address) => address.id === parseInt(id)) ??
         ({} as Address)
     );
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleDelete = (id: string) => {
@@ -68,7 +67,7 @@ function Addresses() {
   };
 
   const handleClose = () => {
-    setShowModal(false);
+    setShowForm(false);
     setFormError({ isError: false, message: "" });
   };
 
@@ -81,7 +80,7 @@ function Addresses() {
       city: "",
       type: "EVENT",
     } as Address);
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleSave = () => {
@@ -111,7 +110,7 @@ function Addresses() {
   };
 
   // COMPONENT STATE
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [address, setAddress] = useState({} as Address);
   const [error, setError] = useState({
     isError: false,
@@ -148,13 +147,21 @@ function Addresses() {
   return (
     <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <PrimaryButton
-        variant="primary"
-        textColor="white"
-        onClick={handleNewAddress}
-      >
-        Créer une nouvelle adresse
-      </PrimaryButton>
+      <Button variant="primary" onClick={handleNewAddress}>
+        Créer une adresse
+      </Button>
+
+      {showForm && (
+        <BaseForm
+          title="Ajouter une adresse"
+          fields={formFields}
+          item={address}
+          setItem={setAddress}
+          error={formError}
+          handleClose={handleClose}
+          handleSave={handleSave}
+        />
+      )}
 
       <DataTable
         columns={tableColumns}
@@ -164,22 +171,6 @@ function Addresses() {
         hasDelete={true}
         handleDelete={handleDelete}
       />
-
-      {showModal && (
-        <FormModal
-          title="Ajouter une adresse"
-          show={showModal}
-          handleClose={handleClose}
-          handleSave={handleSave}
-        >
-          <BaseForm
-            fields={formFields}
-            item={address}
-            setItem={setAddress}
-            error={formError}
-          />
-        </FormModal>
-      )}
     </div>
   );
 }

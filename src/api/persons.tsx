@@ -36,6 +36,18 @@ const getHosts = async (eventId: string) => {
   return personsArray.parse(response.data);
 };
 
+const postHost = async (eventId: string, host: Person) => {
+  let response = await axios.post(`${baseUrl}/events/${eventId}/hosts`, host);
+  return response.data;
+};
+
+const deleteHost = async (eventId: string, participantId: number) => {
+  let response = await axios.delete(
+    `${baseUrl}/events/${eventId}/hosts/${participantId}`
+  );
+  return response.data;
+};
+
 const getPersonByName = async (name: string) => {
   let response = await axios.get(`${baseUrl}/persons?name=${name}`);
   return personsArray.parse(response.data);
@@ -47,5 +59,7 @@ export {
   postParticipant,
   deleteParticipant,
   getHosts,
+  postHost,
+  deleteHost,
   getPersonByName,
 };

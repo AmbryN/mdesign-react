@@ -9,7 +9,6 @@ import {
 } from "@api/hooks/useEvents";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
-import FormModal from "@components/layout/FormModal/FormModal";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
 import Button from "@components/Button/Button";
@@ -53,7 +52,7 @@ function Events() {
     setEvent(
       events!.find((event) => event.id === parseInt(id)) ?? ({} as Event)
     );
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleDelete = (id: string) => {
@@ -61,7 +60,7 @@ function Events() {
   };
 
   const handleClose = () => {
-    setShowModal(false);
+    setShowForm(false);
     setFormError({
       isError: false,
       message: "",
@@ -81,7 +80,7 @@ function Events() {
       participants: [],
       hosts: [],
     });
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleSave = () => {
@@ -111,7 +110,7 @@ function Events() {
   };
 
   // COMPONENT STATE
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [event, setEvent] = useState({} as Event);
   const [error, setError] = useState({ isError: false, message: "" });
   const [formError, setFormError] = useState({ isError: false, message: "" });
@@ -143,9 +142,21 @@ function Events() {
   return (
     <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button className="mt-3" variant="primary" onClick={handleNewEvent}>
-        Créer un nouvel événement
+      <Button variant="primary" onClick={handleNewEvent}>
+        Créer un événement
       </Button>
+
+      {showForm && (
+        <ConnectedEventForm
+          title="Ajouter un événement"
+          fields={formFields}
+          item={event}
+          setItem={setEvent}
+          error={formError}
+          handleClose={handleClose}
+          handleSave={handleSave}
+        />
+      )}
 
       <DataTable
         columns={tableColumns}
@@ -156,22 +167,6 @@ function Events() {
         hasDelete={true}
         handleDelete={handleDelete}
       />
-
-      {showModal && (
-        <FormModal
-          title="Ajouter un événement"
-          show={showModal}
-          handleClose={handleClose}
-          handleSave={handleSave}
-        >
-          <ConnectedEventForm
-            fields={formFields}
-            item={event}
-            setItem={setEvent}
-            error={formError}
-          />
-        </FormModal>
-      )}
     </div>
   );
 }

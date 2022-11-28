@@ -12,7 +12,7 @@ export default function WarningButton({
   return (
     <button
       onClick={onClick}
-      className={`${className} mx-1 w-24 rounded bg-orange-500 text-white`}
+      className={`${className} w-24 rounded bg-orange-500 text-white`}
     >
       {children}
     </button>

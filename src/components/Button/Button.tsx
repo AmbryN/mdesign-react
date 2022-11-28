@@ -6,7 +6,6 @@ import DangerButton from "@components/Button/DangerButton";
 
 export default function Button({
   variant,
-  className,
   children,
   ...restProps
 }: {
@@ -19,25 +18,25 @@ export default function Button({
     switch (variant) {
       case "primary":
         return (
-          <PrimaryButton className={className} {...restProps}>
+          <PrimaryButton className="m-2 py-1" {...restProps}>
             {children}
           </PrimaryButton>
         );
       case "warning":
         return (
-          <WarningButton className={className} {...restProps}>
+          <WarningButton className="m-2 py-1" {...restProps}>
             {children}
           </WarningButton>
         );
       case "danger":
         return (
-          <DangerButton className={className} {...restProps}>
+          <DangerButton className="m-2 py-1" {...restProps}>
             {children}
           </DangerButton>
         );
       default:
         return (
-          <PrimaryButton className={className} {...restProps}>
+          <PrimaryButton className="m-2 py-1" {...restProps}>
             {children}
           </PrimaryButton>
         );
