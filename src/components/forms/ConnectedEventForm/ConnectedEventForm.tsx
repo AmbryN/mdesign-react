@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, MouseEventHandler } from "react";
 
 import { Address, EventType } from "@api/models";
 import { useAddresses } from "@api/hooks/useAddresses";
@@ -7,36 +7,27 @@ import BaseForm from "@components/forms/BaseForm/BaseForm";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 
 type ConnectedFormProps = {
-  fields: [
-    {
-      label: string;
-      name: string;
-      type: string;
-    }
-  ];
+  title: string;
+  fields: {
+    label: string;
+    name: string;
+    type: string;
+  }[];
   item: any;
   setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
+  handleClose: MouseEventHandler<HTMLButtonElement>;
+  handleSave: MouseEventHandler<HTMLButtonElement>;
 };
 
 function ConnectedEventForm(props: ConnectedFormProps) {
-  const {
-    data: addresses,
-    isLoading: isLoadingAddresses,
-  }: { data?: Address[]; isLoading: boolean } = useAddresses();
+  const { data: addresses, isLoading: isLoadingAddresses } = useAddresses();
 
-  const {
-    data: eventTypes,
-    isLoading: isLoadingTypes,
-  }: {
-    data?: EventType[];
-    isLoading: boolean;
-  } = useEventTypes();
+  const { data: eventTypes, isLoading: isLoadingTypes } = useEventTypes();
 
   let selectItems = new Map<String, any[]>();
-
-  selectItems.set("type", eventTypes!);
-  selectItems.set("address", addresses!);
+  selectItems.set("type", eventTypes || []);
+  selectItems.set("address", addresses || []);
 
   if (isLoadingAddresses || isLoadingTypes) return <LoadingSpinner />;
 

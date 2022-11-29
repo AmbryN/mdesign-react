@@ -1,8 +1,9 @@
-import { Person } from "@api/models";
 import { useState } from "react";
+
+import { Person } from "@api/models";
+import { usePostParticipant } from "@api/hooks/usePersons";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import { useMutation } from "react-query";
-import { postPerson } from "@api/persons";
+import { useParams } from "react-router-dom";
 
 export default function SearchResults({
   results,
@@ -11,6 +12,9 @@ export default function SearchResults({
   results: Person[];
   onSelect: Function;
 }) {
+  const { id } = useParams();
+
+  // STATE
   const [showForm, setShowForm] = useState(false);
   const [formError, setFormError] = useState({ isError: false, message: "" });
   const [item, setItem] = useState({
@@ -27,8 +31,10 @@ export default function SearchResults({
     type: "",
   });
 
-  const postQuery = useMutation(postPerson);
+  // DATA
+  const postParticipant = usePostParticipant(id!);
 
+  // Form settings
   const formFields = [
     { label: "Nom", name: "lastName", type: "text" },
     { label: "Prénom", name: "firstName", type: "text" },
@@ -45,6 +51,7 @@ export default function SearchResults({
   let selectItems = new Map<string, string[]>();
   selectItems.set("gender", ["HOMME", "FEMME"]);
 
+  // EVENT HANDLERS
   const onNew = () => {
     setItem({
       firstName: "",
@@ -62,28 +69,50 @@ export default function SearchResults({
     setShowForm(true);
   };
 
-  const handleCloseForm = () => {
-    setShowForm(false);
+  const handleSaveForm = () => {
+    if (
+      item.firstName !== "" &&
+      item.lastName !== "" &&
+      item.gender !== "" &&
+      item.dateOfBirth !== "" &&
+      item.email !== "" &&
+      item.phone !== "" &&
+      item.number !== "" &&
+      item.street !== "" &&
+      item.postalCode !== "" &&
+      item.city !== "" &&
+      item.type !== ""
+    ) {
+      const newItem = {
+        ...item,
+        address: {
+          number: item.number,
+          street: item.street,
+          postalCode: item.postalCode,
+          city: item.city,
+          type: "PERSON",
+        },
+      };
+      postParticipant.mutate(newItem);
+      handleCloseForm();
+    } else {
+      setFormError({
+        isError: true,
+        message: "Un ou des champs sont incomplets",
+      });
+    }
   };
 
-  const handleSaveForm = () => {
-    const newItem = {
-      ...item,
-      address: {
-        number: item.number,
-        street: item.street,
-        postalCode: item.postalCode,
-        city: item.city,
-        type: "PERSON",
-      },
-    };
-    console.log(newItem);
-    postQuery.mutate(newItem);
+  const handleCloseForm = () => {
+    setShowForm(false);
   };
 
   return (
     <div>
       <ul className="w-2/6 border-2 relative left-3 -top-3 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
+        <button onClick={onNew}>
+          <li className="p-3 hover:bg-gray-300">-- Créer --</li>
+        </button>
         {results
           ? results.map((result, index) => (
               <button key={index} onClick={() => onSelect(result)}>
@@ -91,9 +120,6 @@ export default function SearchResults({
               </button>
             ))
           : null}
-        <button onClick={onNew}>
-          <li className="p-3 hover:bg-gray-300">-- Créer --</li>
-        </button>
       </ul>
       {showForm && (
         <BaseForm

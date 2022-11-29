@@ -11,7 +11,7 @@ import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
-import Button from "@components/Button/Button";
+import { LargeButton } from "@components/Buttons/Button";
 
 function Events() {
   // CRUD GET
@@ -142,9 +142,9 @@ function Events() {
   return (
     <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button variant="primary" onClick={handleNewEvent}>
+      <LargeButton primary onClick={handleNewEvent}>
         Créer un événement
-      </Button>
+      </LargeButton>
 
       {showForm && (
         <ConnectedEventForm

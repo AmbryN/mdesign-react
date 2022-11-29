@@ -1,8 +1,10 @@
 import { Person } from "@api/models";
 import { useState } from "react";
 import SearchBar from "@components/layout/SearchBar/SearchBar";
+import PersonsList from "@components/PersonsListContainer/PersonsList/PersonsList";
+import { getPersonByName } from "@api/persons";
 
-export default function PersonList({
+export default function PersonsListContainer({
   name,
   persons,
   addPerson,
@@ -14,6 +16,11 @@ export default function PersonList({
   deletePerson: Function;
 }) {
   const [showSearch, setShowSearch] = useState(false);
+
+  const searchBarQueryParams = {
+    queryKey: ["persons"],
+    queryFn: getPersonByName,
+  };
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
@@ -37,20 +44,16 @@ export default function PersonList({
         )}
       </div>
       <div>
-        {showSearch && <SearchBar label="Nom" name="name" select={addPerson} />}
-        <ul className="divide-y divide-gray-400">
-          {persons.map((person, index) => {
-            return (
-              <li key={index} className="flex justify-between">
-                <span>{`${person.lastName} ${person.firstName}`}</span>
-                <button onClick={() => deletePerson(person.id!)}>
-                  <i className="material-icons">delete</i>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {showSearch && (
+          <SearchBar
+            label="Nom"
+            name="name"
+            select={addPerson}
+            queryParameters={searchBarQueryParams}
+          />
+        )}
       </div>
+      <PersonsList persons={persons} deletePerson={deletePerson} />
     </div>
   );
 }

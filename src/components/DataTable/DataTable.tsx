@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "@components/Button/Button";
+import { BasicButton } from "@components/Buttons/Button";
 
 type Column = {
   header: string;
@@ -49,25 +49,19 @@ function DataTable({
             {(hasUpdate || hasDelete) && (
               <td className="flex flex-wrap justify-center">
                 {hasShowDetails && (
-                  <Button
-                    variant="primary"
-                    onClick={() => navigate(`./${row.id}`)}
-                  >
+                  <BasicButton primary onClick={() => navigate(`./${row.id}`)}>
                     Voir
-                  </Button>
+                  </BasicButton>
                 )}
                 {hasUpdate && (
-                  <Button
-                    variant="warning"
-                    onClick={() => handleUpdate(row.id)}
-                  >
+                  <BasicButton warning onClick={() => handleUpdate(row.id)}>
                     Modifier
-                  </Button>
+                  </BasicButton>
                 )}
                 {hasDelete && (
-                  <Button variant="danger" onClick={() => handleDelete(row.id)}>
+                  <BasicButton danger onClick={() => handleDelete(row.id)}>
                     Supprimer
-                  </Button>
+                  </BasicButton>
                 )}
               </td>
             )}

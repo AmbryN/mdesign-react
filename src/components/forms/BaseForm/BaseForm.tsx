@@ -1,6 +1,5 @@
 import { ChangeEventHandler, Dispatch, MouseEventHandler } from "react";
 
-import Button from "@components/Button/Button";
 import {
   DateInput,
   NumberInput,
@@ -8,6 +7,7 @@ import {
   TextInput,
   TimeInput,
 } from "@components/forms/Inputs";
+import { BasicButton } from "@components/Buttons/Button";
 
 function BaseForm({
   title,
@@ -20,13 +20,11 @@ function BaseForm({
   handleSave,
 }: {
   title: string;
-  fields: [
-    {
-      label: string;
-      name: string;
-      type: string;
-    }
-  ];
+  fields: {
+    label: string;
+    name: string;
+    type: string;
+  }[];
   item: any;
   selectItems?: Map<String, any[]>;
   setItem: Dispatch<any>;
@@ -78,7 +76,7 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            items={selectItems.get(name)}
+            items={selectItems!.get(name) || []}
             value={item[name]}
             setValue={handleChange}
           />
@@ -120,9 +118,9 @@ function BaseForm({
     <div className="flex flex-col w-5/6 p-3 my-3 bg-gray-200 rounded">
       <div className="flex justify-between">
         <h1 className="h1">{title}</h1>
-        <Button variant="warning" onClick={handleClose}>
+        <BasicButton warning onClick={handleClose}>
           Fermer
-        </Button>
+        </BasicButton>
       </div>
       {error.isError && <div>error.message</div>}
       <form className="flex flex-wrap justify-between">
@@ -131,9 +129,9 @@ function BaseForm({
           return fieldSelection(index, field);
         })}
       </form>
-      <Button className="self-end" variant="primary" onClick={handleSave}>
+      <BasicButton primary className="self-end" onClick={handleSave}>
         Enregistrer
-      </Button>
+      </BasicButton>
     </div>
   );
 }

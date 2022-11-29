@@ -3,9 +3,8 @@ import { useParams } from "react-router-dom";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import EventDescription from "@components/EventDescription/EventDescription";
-import PersonList from "@components/PersonList/PersonList";
+import PersonsListContainer from "@components/PersonsListContainer/PersonsListContainer";
 import { useEvent } from "@api/hooks/useEvents";
-import { useState } from "react";
 import { Person } from "@api/models";
 import {
   useDeleteHost,
@@ -45,8 +44,6 @@ function Event() {
     deleteHost.mutate(personId);
   };
 
-  const [showModal, setShowModal] = useState(false);
-
   if (isLoading || isLoadingParticipants || isLoadingHosts)
     return <LoadingSpinner />;
 
@@ -55,13 +52,13 @@ function Event() {
   return (
     <div className="flex flex-col items-center">
       <EventDescription event={event!} />
-      <PersonList
+      <PersonsListContainer
         name="Participants"
         persons={participants!}
         addPerson={addParticipant}
         deletePerson={removeParticipant}
       />
-      <PersonList
+      <PersonsListContainer
         name="Animateurs"
         persons={hosts!}
         addPerson={addHost}

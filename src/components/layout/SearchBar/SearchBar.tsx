@@ -1,19 +1,21 @@
 import { TextInput } from "@components/forms/Inputs";
 import { useDebounce } from "@api/hooks/useDebounce";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { getPersonByName } from "@api/persons";
 import SearchResults from "@components/layout/SearchResults/SearchResults";
+import { useQuery } from "react-query";
 
 export default function SearchBar({
   label,
   name,
+  queryParameters,
   select,
 }: {
   label: string;
   name: string;
+  queryParameters: { queryKey: string[]; queryFn: Function };
   select: Function;
 }) {
+  // STATE
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedTerm = useDebounce(searchTerm, 300);
   const [show, setShow] = useState(false);
@@ -22,20 +24,19 @@ export default function SearchBar({
     data: results,
     isError,
     error,
-  } = useQuery(
-    ["persons", debouncedTerm],
-    () => getPersonByName(debouncedTerm),
-    {
-      onSuccess: () => {
-        setShow(true);
-      },
-    }
+  } = useQuery([queryParameters.queryKey, debouncedTerm], () =>
+    queryParameters.queryFn(debouncedTerm)
   );
 
+  // EVENT HANDLERS
   const onSelect = (selectedItem: object) => {
     select(selectedItem);
     setShow(false);
     setSearchTerm("");
+  };
+
+  const onFocus = () => {
+    setShow(true);
   };
 
   return (
@@ -45,7 +46,9 @@ export default function SearchBar({
         name={name}
         value={searchTerm}
         setValue={(e) => setSearchTerm(e.target.value)}
+        onFocus={onFocus}
       />
+
       {isError && <div>{error.message}</div>}
 
       {show && results && (

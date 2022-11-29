@@ -12,7 +12,7 @@ import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import Button from "@components/Button/Button";
+import { LargeButton } from "@components/Buttons/Button";
 
 function Addresses() {
   // CRUD GET
@@ -147,9 +147,9 @@ function Addresses() {
   return (
     <div className="flex flex-col items-center">
       {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <Button variant="primary" onClick={handleNewAddress}>
+      <LargeButton primary onClick={handleNewAddress}>
         Créer une adresse
-      </Button>
+      </LargeButton>
 
       {showForm && (
         <BaseForm

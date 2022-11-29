@@ -1,15 +1,17 @@
-import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
+import { ChangeEventHandler } from "react";
 
 function TextInput({
   label,
   name,
   value,
   setValue,
+  onFocus,
 }: {
   label: string;
   name: string;
   value: string;
   setValue: ChangeEventHandler<any>;
+  onFocus?: ChangeEventHandler<HTMLInputElement>;
 }) {
   return (
     <div className="flex flex-col m-2">
@@ -24,6 +26,7 @@ function TextInput({
         placeholder={label}
         value={value}
         onChange={(e) => setValue(e)}
+        onFocus={onFocus}
         required
       />
     </div>
