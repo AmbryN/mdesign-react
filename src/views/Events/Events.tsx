@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 
 import { Address, Event, EventType } from "@api/models";
 import {
@@ -109,6 +109,16 @@ function Events() {
     }
   };
 
+  const updateEvent: ChangeEventHandler<HTMLFormElement> = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setEvent({ ...event, [name]: value });
+  };
+
+  const updateEventSelects = (name: string, value: any) => {
+    setEvent({ ...event, [name]: value });
+  };
+
   // COMPONENT STATE
   const [showForm, setShowForm] = useState(false);
   const [event, setEvent] = useState({} as Event);
@@ -124,14 +134,62 @@ function Events() {
   ];
 
   const formFields = [
-    { label: "Nom de l'événement", name: "name", type: "text" },
-    { label: "Type", name: "type", type: "select" },
-    { label: "Lieu de l'événement", name: "address", type: "select" },
-    { label: "Date de l'événement", name: "date", type: "date" },
-    { label: "Nombre d'heures vendues", name: "soldHours", type: "number" },
-    { label: "Heure de début", name: "startTime", type: "time" },
-    { label: "Heure de fin", name: "endTime", type: "time" },
-    { label: "Url", name: "url", type: "text" },
+    {
+      label: "Nom de l'événement",
+      name: "name",
+      type: "text",
+      value: event.name,
+      setValue: updateEvent,
+    },
+    {
+      label: "Type",
+      name: "type",
+      type: "select",
+      value: event.type,
+      setValue: updateEventSelects,
+    },
+    {
+      label: "Lieu de l'événement",
+      name: "address",
+      type: "select",
+      value: event.address,
+      setValue: updateEventSelects,
+    },
+    {
+      label: "Date de l'événement",
+      name: "date",
+      type: "date",
+      value: event.date,
+      setValue: updateEvent,
+    },
+    {
+      label: "Nombre d'heures vendues",
+      name: "soldHours",
+      type: "number",
+      value: event.soldHours,
+      setValue: updateEvent,
+    },
+    {
+      label: "Heure de début",
+      name: "startTime",
+      type: "time",
+      value: event.startTime,
+      setValue: updateEvent,
+    },
+    {
+      label: "Heure de fin",
+      name: "endTime",
+      type: "time",
+      value: event.endTime,
+      setValue: updateEvent,
+    },
+    {
+      label: "Url",
+      name: "url",
+      type: "text",
+      value: event.url,
+      setValue: updateEvent,
+    },
   ];
 
   // RENDER

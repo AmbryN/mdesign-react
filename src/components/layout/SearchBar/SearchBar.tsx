@@ -24,8 +24,10 @@ export default function SearchBar({
     data: results,
     isError,
     error,
-  } = useQuery([queryParameters.queryKey, debouncedTerm], () =>
-    queryParameters.queryFn(debouncedTerm)
+  } = useQuery(
+    [queryParameters.queryKey, debouncedTerm],
+    () => queryParameters.queryFn(debouncedTerm),
+    { enabled: debouncedTerm !== "" }
   );
 
   // EVENT HANDLERS

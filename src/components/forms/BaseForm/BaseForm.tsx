@@ -1,4 +1,4 @@
-import { ChangeEventHandler, Dispatch, MouseEventHandler } from "react";
+import { Dispatch, MouseEventHandler } from "react";
 
 import {
   DateInput,
@@ -12,9 +12,7 @@ import { BasicButton } from "@components/Buttons/Button";
 function BaseForm({
   title,
   fields,
-  item,
   selectItems,
-  setItem,
   error,
   handleClose,
   handleSave,
@@ -24,40 +22,29 @@ function BaseForm({
     label: string;
     name: string;
     type: string;
+    value: any;
+    setValue: Dispatch<any>;
   }[];
-  item: any;
   selectItems?: Map<String, any[]>;
-  setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
   handleClose: MouseEventHandler<HTMLButtonElement>;
   handleSave: MouseEventHandler<HTMLButtonElement>;
 }) {
-  const handleChange: ChangeEventHandler<HTMLInputElement> &
-    ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-    if (name == "address") {
-      setItem({
-        ...item,
-        address: { id: value },
-      });
-    } else if (name == "type") {
-      setItem({
-        ...item,
-        type: { id: value },
-      });
-    } else {
-      setItem({
-        ...item,
-        [name]: value,
-      });
-    }
-  };
-
   const fieldSelection = (
     index: number,
-    { label, name, type }: { label: string; name: string; type: string }
+    {
+      label,
+      name,
+      type,
+      value,
+      setValue,
+    }: {
+      label: string;
+      name: string;
+      type: string;
+      value: any;
+      setValue: Dispatch<any>;
+    }
   ) => {
     switch (type) {
       case "text":
@@ -66,8 +53,8 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            value={item[name]}
-            setValue={handleChange}
+            value={value}
+            setValue={setValue}
           />
         );
       case "select":
@@ -77,8 +64,8 @@ function BaseForm({
             label={label}
             name={name}
             items={selectItems!.get(name) || []}
-            value={item[name]}
-            setValue={handleChange}
+            value={value}
+            setValue={setValue}
           />
         );
       case "number":
@@ -87,8 +74,8 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            value={item[name]}
-            setValue={handleChange}
+            value={value}
+            setValue={setValue}
           />
         );
       case "date":
@@ -97,8 +84,8 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            value={item[name]}
-            setValue={handleChange}
+            value={value}
+            setValue={setValue}
           />
         );
       case "time":
@@ -107,8 +94,8 @@ function BaseForm({
             key={index}
             label={label}
             name={name}
-            value={item[name]}
-            setValue={handleChange}
+            value={value}
+            setValue={setValue}
           />
         );
     }
@@ -122,9 +109,8 @@ function BaseForm({
           Fermer
         </BasicButton>
       </div>
-      {error.isError && <div>error.message</div>}
       <form className="flex flex-wrap justify-between">
-        {error.isError && <div>Erreur : un ou des champs sont vides !</div>}
+        {error.isError && <div>{error.message}</div>}
         {fields.map((field, index) => {
           return fieldSelection(index, field);
         })}

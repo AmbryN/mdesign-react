@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
 import { Address } from "@api/models";
 import {
@@ -109,6 +109,12 @@ function Addresses() {
     }
   };
 
+  const updateAddress: ChangeEventHandler<HTMLFormElement> = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setAddress({ ...address, [name]: value });
+  };
+
   // COMPONENT STATE
   const [showForm, setShowForm] = useState(false);
   const [address, setAddress] = useState({} as Address);
@@ -131,11 +137,41 @@ function Addresses() {
   ];
 
   const formFields = [
-    { label: "Nom de l'adresse", name: "name", type: "text" },
-    { label: "Numéro de rue", name: "number", type: "text" },
-    { label: "Rue", name: "street", type: "text" },
-    { label: "Code Postal", name: "postalCode", type: "text" },
-    { label: "Ville", name: "city", type: "text" },
+    {
+      label: "Nom de l'adresse",
+      name: "name",
+      type: "text",
+      value: address.name,
+      setValue: updateAddress,
+    },
+    {
+      label: "Numéro de rue",
+      name: "number",
+      type: "text",
+      value: address.number,
+      setValue: updateAddress,
+    },
+    {
+      label: "Rue",
+      name: "street",
+      type: "text",
+      value: address.street,
+      setValue: updateAddress,
+    },
+    {
+      label: "Code Postal",
+      name: "postalCode",
+      type: "text",
+      value: address.postalCode,
+      setValue: updateAddress,
+    },
+    {
+      label: "Ville",
+      name: "city",
+      type: "text",
+      value: address.city,
+      setValue: updateAddress,
+    },
   ];
 
   // RENDER
@@ -155,8 +191,6 @@ function Addresses() {
         <BaseForm
           title="Ajouter une adresse"
           fields={formFields}
-          item={address}
-          setItem={setAddress}
           error={formError}
           handleClose={handleClose}
           handleSave={handleSave}

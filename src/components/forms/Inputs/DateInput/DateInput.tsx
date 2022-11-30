@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, Dispatch } from "react";
 
 function DateInput({
   label,
@@ -9,7 +9,7 @@ function DateInput({
   label: string;
   name: string;
   value: string;
-  setValue: ChangeEventHandler<any>;
+  setValue: ChangeEventHandler<HTMLInputElement>;
 }) {
   return (
     <div className="flex flex-col m-2">

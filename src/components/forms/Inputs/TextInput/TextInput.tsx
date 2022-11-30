@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
 
 function TextInput({
   label,
@@ -10,7 +10,7 @@ function TextInput({
   label: string;
   name: string;
   value: string;
-  setValue: ChangeEventHandler<any>;
+  setValue: ChangeEventHandler<HTMLInputElement>;
   onFocus?: ChangeEventHandler<HTMLInputElement>;
 }) {
   return (

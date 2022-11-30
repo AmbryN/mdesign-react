@@ -48,5 +48,27 @@ const EventSchema = z.object({
 
 type Event = z.infer<typeof EventSchema>;
 
-export { AddressSchema, PersonSchema, EventTypeSchema, EventSchema };
-export type { Address, Person, EventType, Event };
+const MDesignResultSchema = z.object({
+  address: z.string(),
+  events: z.string(),
+  dates: z.string(),
+  nbEvents: z.number(),
+  nbParticipants: z.number(),
+  nbMen: z.number(),
+  nbWomen: z.number(),
+  lowestAge: z.number(),
+  highestAge: z.number(),
+  soldHours: z.number(),
+  executedHours: z.number(),
+});
+
+type MDesignResult = z.infer<typeof MDesignResultSchema>;
+
+export {
+  AddressSchema,
+  PersonSchema,
+  EventTypeSchema,
+  EventSchema,
+  MDesignResultSchema,
+};
+export type { Address, Person, EventType, Event, MDesignResult };

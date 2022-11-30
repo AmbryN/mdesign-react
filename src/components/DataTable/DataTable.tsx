@@ -31,7 +31,7 @@ function DataTable({
       <thead>
         <tr>
           {columns.map((column) => (
-            <th className="px-5" key={column.header}>
+            <th className="px-5" key={column.name}>
               {column.header}
             </th>
           ))}

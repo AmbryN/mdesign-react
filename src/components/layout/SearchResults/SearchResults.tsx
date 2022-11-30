@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
 import { Person } from "@api/models";
 import { usePostParticipant } from "@api/hooks/usePersons";
@@ -28,28 +28,11 @@ export default function SearchResults({
     street: "",
     postalCode: "",
     city: "",
-    type: "",
+    type: "PERSON",
   });
 
   // DATA
   const postParticipant = usePostParticipant(id!);
-
-  // Form settings
-  const formFields = [
-    { label: "Nom", name: "lastName", type: "text" },
-    { label: "Prénom", name: "firstName", type: "text" },
-    { label: "Sexe", name: "gender", type: "select" },
-    { label: "Date de naissance", name: "dateOfBirth", type: "date" },
-    { label: "Email", name: "email", type: "text" },
-    { label: "Téléphone", name: "phone", type: "text" },
-    { label: "Numéro de rue", name: "number", type: "text" },
-    { label: "Rue", name: "street", type: "text" },
-    { label: "Code Postal", name: "postalCode", type: "text" },
-    { label: "Ville", name: "city", type: "text" },
-  ];
-
-  let selectItems = new Map<string, string[]>();
-  selectItems.set("gender", ["HOMME", "FEMME"]);
 
   // EVENT HANDLERS
   const onNew = () => {
@@ -64,9 +47,19 @@ export default function SearchResults({
       street: "",
       postalCode: "",
       city: "",
-      type: "",
+      type: "PERSON",
     });
     setShowForm(true);
+  };
+
+  const updateItem: ChangeEventHandler<HTMLFormElement> = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setItem({ ...item, [name]: value });
+  };
+
+  const updateItemSelects = (name: string, value: any) => {
+    setItem({ ...item, [name]: value });
   };
 
   const handleSaveForm = () => {
@@ -80,8 +73,7 @@ export default function SearchResults({
       item.number !== "" &&
       item.street !== "" &&
       item.postalCode !== "" &&
-      item.city !== "" &&
-      item.type !== ""
+      item.city !== ""
     ) {
       const newItem = {
         ...item,
@@ -90,7 +82,7 @@ export default function SearchResults({
           street: item.street,
           postalCode: item.postalCode,
           city: item.city,
-          type: "PERSON",
+          type: item.type,
         },
       };
       postParticipant.mutate(newItem);
@@ -106,6 +98,83 @@ export default function SearchResults({
   const handleCloseForm = () => {
     setShowForm(false);
   };
+
+  // Form settings
+  const formFields = [
+    {
+      label: "Nom",
+      name: "lastName",
+      type: "text",
+      value: item.lastName,
+      setValue: updateItem,
+    },
+    {
+      label: "Prénom",
+      name: "firstName",
+      type: "text",
+      value: item.firstName,
+      setValue: updateItem,
+    },
+    {
+      label: "Sexe",
+      name: "gender",
+      type: "select",
+      value: item.gender,
+      setValue: updateItemSelects,
+    },
+    {
+      label: "Date de naissance",
+      name: "dateOfBirth",
+      type: "date",
+      value: item.dateOfBirth,
+      setValue: updateItem,
+    },
+    {
+      label: "Email",
+      name: "email",
+      type: "text",
+      value: item.email,
+      setValue: updateItem,
+    },
+    {
+      label: "Téléphone",
+      name: "phone",
+      type: "text",
+      value: item.phone,
+      setValue: updateItem,
+    },
+    {
+      label: "Numéro de rue",
+      name: "number",
+      type: "text",
+      value: item.number,
+      setValue: updateItem,
+    },
+    {
+      label: "Rue",
+      name: "street",
+      type: "text",
+      value: item.street,
+      setValue: updateItem,
+    },
+    {
+      label: "Code Postal",
+      name: "postalCode",
+      type: "text",
+      value: item.postalCode,
+      setValue: updateItem,
+    },
+    {
+      label: "Ville",
+      name: "city",
+      type: "text",
+      value: item.city,
+      setValue: updateItem,
+    },
+  ];
+
+  let selectItems = new Map<string, string[]>();
+  selectItems.set("gender", ["HOMME", "FEMME"]);
 
   return (
     <div>
@@ -126,8 +195,6 @@ export default function SearchResults({
           title="Créer une personne"
           fields={formFields}
           selectItems={selectItems}
-          item={item}
-          setItem={setItem}
           error={formError}
           handleClose={handleCloseForm}
           handleSave={handleSaveForm}

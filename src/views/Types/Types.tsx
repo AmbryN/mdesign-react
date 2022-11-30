@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 
 import { EventType } from "@api/models";
 import {
@@ -56,10 +56,14 @@ function Types() {
   };
 
   const handleNewType = () => {
-    setType({
-      name: "",
-    });
+    setType({ name: "" });
     setShowForm(true);
+  };
+
+  const updateType: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setType({ ...type, [name]: value });
   };
 
   const handleSave = () => {
@@ -77,7 +81,7 @@ function Types() {
 
   // COMPONENT STATE
   const [showForm, setShowForm] = useState(false);
-  const [type, setType] = useState({} as EventType);
+  const [type, setType] = useState({ name: "" });
   const [error, setError] = useState({ isError: false, message: "" });
   const [formError, setFormError] = useState({ isError: false, message: "" });
 
@@ -86,7 +90,15 @@ function Types() {
     { header: "Nom", name: "name" },
   ];
 
-  const formFields = [{ label: "Nom du type", name: "name", type: "text" }];
+  const formFields = [
+    {
+      label: "Nom du type",
+      name: "name",
+      type: "text",
+      value: type.name,
+      setValue: updateType,
+    },
+  ];
 
   // RENDER
   if (isLoading) return <LoadingSpinner />;
@@ -95,19 +107,16 @@ function Types() {
 
   return (
     <div className="flex flex-col items-center">
-      {error.isError && <ErrorAlert errorMessage={error.message} />}
       <LargeButton primary onClick={handleNewType}>
         Créer un type
       </LargeButton>
-
+      {error.isError && <div>{error.message}</div>}
       {showForm && (
         <BaseForm
           title="Ajouter un type"
           handleClose={handleClose}
           handleSave={handleSave}
           fields={formFields}
-          item={type}
-          setItem={setType}
           error={formError}
         />
       )}

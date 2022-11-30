@@ -42,12 +42,14 @@ export function BasicButton({
   onClick,
   children,
   className,
+  type,
   ...restProps
 }: {
   primary?: boolean;
   warning?: boolean;
   danger?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  type?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
   className?: string;
 }) {
