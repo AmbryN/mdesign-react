@@ -42,7 +42,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="my-3">
+    <div className="mt-5 my-3">
       <TextInput
         label={label}
         name={name}
