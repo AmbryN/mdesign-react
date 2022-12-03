@@ -8,10 +8,12 @@ import {
   usePutEvent,
 } from "@api/hooks/useEvents";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
+import Alert from "@components/ErrorAlert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
-import { LargeButton } from "@components/Buttons/Button";
+import Modal from "@components/layout/Modal/Modal";
+import { Button } from "react-query/types/devtools/styledComponents";
+import { BasicButton } from "@components/Buttons/Button";
 
 function Events() {
   // CRUD GET
@@ -195,25 +197,28 @@ function Events() {
   // RENDER
   if (isLoading) return <LoadingSpinner />;
 
-  if (isError) return <ErrorAlert errorMessage={eventsError.message} />;
+  if (isError) return <Alert errorMessage={eventsError.message} />;
 
   return (
     <div className="flex flex-col items-center">
-      {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <LargeButton primary onClick={handleNewEvent}>
+      {error.isError && <Alert errorMessage={error.message} />}
+      <BasicButton variant="primary" onClick={handleNewEvent}>
         Créer un événement
-      </LargeButton>
+      </BasicButton>
 
       {showForm && (
-        <ConnectedEventForm
-          title="Ajouter un événement"
-          fields={formFields}
-          item={event}
-          setItem={setEvent}
-          error={formError}
-          handleClose={handleClose}
+        <Modal
+          title={"Ajouter un événement"}
           handleSave={handleSave}
-        />
+          handleClose={handleClose}
+        >
+          <ConnectedEventForm
+            fields={formFields}
+            item={event}
+            setItem={setEvent}
+            error={formError}
+          />
+        </Modal>
       )}
 
       <DataTable

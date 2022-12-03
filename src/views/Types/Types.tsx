@@ -7,10 +7,11 @@ import {
   usePostEventType,
 } from "@api/hooks/useEventTypes";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
+import Alert from "@components/ErrorAlert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import { LargeButton } from "@components/Buttons/Button";
+import Modal from "@components/layout/Modal/Modal";
+import { BasicButton } from "@components/Buttons/Button";
 
 function Types() {
   // CRUD GET
@@ -60,7 +61,7 @@ function Types() {
     setShowForm(true);
   };
 
-  const updateType: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const updateType: ChangeEventHandler<HTMLFormElement> = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setType({ ...type, [name]: value });
@@ -103,22 +104,22 @@ function Types() {
   // RENDER
   if (isLoading) return <LoadingSpinner />;
 
-  if (isError) return <ErrorAlert errorMessage={eventTypesError.message} />;
+  if (isError) return <Alert errorMessage={eventTypesError.message} />;
 
   return (
     <div className="flex flex-col items-center">
-      <LargeButton primary onClick={handleNewType}>
+      <BasicButton variant="primary" onClick={handleNewType}>
         Créer un type
-      </LargeButton>
+      </BasicButton>
       {error.isError && <div>{error.message}</div>}
       {showForm && (
-        <BaseForm
-          title="Ajouter un type"
-          handleClose={handleClose}
+        <Modal
+          title={"Ajouter un type"}
           handleSave={handleSave}
-          fields={formFields}
-          error={formError}
-        />
+          handleClose={handleClose}
+        >
+          <BaseForm fields={formFields} error={formError} />
+        </Modal>
       )}
 
       <DataTable

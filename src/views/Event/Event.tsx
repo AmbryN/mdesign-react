@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
+import Alert from "@components/ErrorAlert/Alert";
 import EventDescription from "@components/EventDescription/EventDescription";
 import PersonsListContainer from "@components/PersonsListContainer/PersonsListContainer";
 import { useEvent } from "@api/hooks/useEvents";
@@ -47,7 +47,7 @@ function Event() {
   if (isLoading || isLoadingParticipants || isLoadingHosts)
     return <LoadingSpinner />;
 
-  if (isError) return <ErrorAlert errorMessage={error.message} />;
+  if (isError) return <Alert errorMessage={error.message} />;
 
   return (
     <div className="flex flex-col items-center">

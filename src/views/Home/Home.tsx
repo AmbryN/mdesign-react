@@ -3,17 +3,27 @@ import { FormEventHandler, useState } from "react";
 import { useQuery } from "react-query";
 import { getMDesginResults } from "@api/queries";
 import DataTable from "@components/DataTable/DataTable";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
+import Alert from "@components/ErrorAlert/Alert";
 
 function Home() {
+  const [search, setSearch] = useState(false);
   const [query, setQuery] = useState({
     startDate: "",
     endDate: "",
   });
-  const { data: mDesignResults, isFetched } = useQuery(
+  const {
+    data: mDesignResults,
+    isLoading,
+    isError,
+    isFetched,
+    error,
+  } = useQuery(
     ["mdesign", query.startDate, query.endDate],
     () => getMDesginResults(query.startDate, query.endDate),
     {
-      enabled: query.startDate !== "" && query.endDate !== "",
+      enabled: search,
+      onSettled: () => setSearch(false),
     }
   );
 
@@ -33,6 +43,7 @@ function Home() {
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
+    setSearch(true);
   };
 
   return (
@@ -43,6 +54,11 @@ function Home() {
         setItem={setQuery}
         onSubmit={handleSubmit}
       />
+
+      {isLoading && <LoadingSpinner />}
+
+      {isError && <Alert errorMessage={error.message} />}
+
       {isFetched && (
         <DataTable
           columns={tableColumns}

@@ -1,4 +1,4 @@
-import { Dispatch, MouseEventHandler } from "react";
+import { ChangeEventHandler, Dispatch, MouseEventHandler } from "react";
 
 import { Address, EventType } from "@api/models";
 import { useAddresses } from "@api/hooks/useAddresses";
@@ -7,17 +7,14 @@ import BaseForm from "@components/forms/BaseForm/BaseForm";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 
 type ConnectedFormProps = {
-  title: string;
   fields: {
     label: string;
     name: string;
     type: string;
+    value: any;
+    setValue: ChangeEventHandler<HTMLFormElement>;
   }[];
-  item: any;
-  setItem: Dispatch<any>;
   error: { isError: boolean; message: string };
-  handleClose: MouseEventHandler<HTMLButtonElement>;
-  handleSave: MouseEventHandler<HTMLButtonElement>;
 };
 
 function ConnectedEventForm(props: ConnectedFormProps) {

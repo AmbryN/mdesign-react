@@ -1,5 +1,14 @@
+import { BasicButton } from "@components/Buttons/Button";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
+const Nav = styled.ul`
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #fff;
+  list-style-type: none;
+`;
 function Menu() {
   const links = [
     { name: "Accueil", path: "/" },
@@ -9,15 +18,17 @@ function Menu() {
   ];
 
   return (
-    <ul className="flex items-center m-0 text-white list-unstyled">
+    <Nav>
       {links.map((link, index) => {
         return (
           <Link key={index} to={link.path}>
-            <li className="m-2 bg-blue-900 p-2 rounded">{link.name}</li>
+            <li>
+              <BasicButton variant="primary">{link.name}</BasicButton>
+            </li>
           </Link>
         );
       })}
-    </ul>
+    </Nav>
   );
 }
 

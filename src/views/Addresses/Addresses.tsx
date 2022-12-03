@@ -9,10 +9,11 @@ import {
 } from "@api/hooks/useAddresses";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import ErrorAlert from "@components/ErrorAlert/ErrorAlert";
+import Alert from "@components/ErrorAlert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
-import { LargeButton } from "@components/Buttons/Button";
+import Modal from "@components/layout/Modal/Modal";
+import { BasicButton } from "@components/Buttons/Button";
 
 function Addresses() {
   // CRUD GET
@@ -177,24 +178,23 @@ function Addresses() {
   // RENDER
   if (isLoadingAddresses) return <LoadingSpinner />;
 
-  if (isErrorAddresses)
-    return <ErrorAlert errorMessage={addressesError.message} />;
+  if (isErrorAddresses) return <Alert errorMessage={addressesError.message} />;
 
   return (
     <div className="flex flex-col items-center">
-      {error.isError && <ErrorAlert errorMessage={error.message} />}
-      <LargeButton primary onClick={handleNewAddress}>
+      {error.isError && <Alert errorMessage={error.message} />}
+      <BasicButton variant="primary" onClick={handleNewAddress}>
         Créer une adresse
-      </LargeButton>
+      </BasicButton>
 
       {showForm && (
-        <BaseForm
-          title="Ajouter une adresse"
-          fields={formFields}
-          error={formError}
-          handleClose={handleClose}
+        <Modal
+          title={"Ajouter une adresse"}
           handleSave={handleSave}
-        />
+          handleClose={handleClose}
+        >
+          <BaseForm fields={formFields} error={formError} />
+        </Modal>
       )}
 
       <DataTable
