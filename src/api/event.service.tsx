@@ -43,7 +43,7 @@ const putEvent = async (event: Event) => {
 };
 
 const deleteEvent = (id: string) => {
-  return axios.delete(`${baseUrl}/events/${id}`);
+  return axios.delete(`${baseUrl}/events/${id}`, {headers: authHeader()});
 };
 
 export {

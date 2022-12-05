@@ -1,16 +1,24 @@
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "@components/layout/Modal/Modal";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import { getCurrentUser, login, logout } from "@api/auth.service";
 import { LoginRequest, LoginResponse } from "@api/models";
+import { useNavigate } from "react-router-dom";
 
 const Login = styled.span`
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
 
   @media (max-width: 500px) {
     margin: 0.2rem 0;
   } ;
+`;
+
+const Username = styled.span`
+  color: white;
+  margin-right: 2rem;
 `;
 
 const LoginButton = styled.span`
@@ -21,12 +29,26 @@ const LoginButton = styled.span`
   color: #fff;
   display: block;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   @media (max-width: 500px) {
     margin: 0;
   } ;
 `;
 
 export default function LoginArea() {
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState(null);
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user) setUsername(user.username);
+  }, []);
+
+  useEffect(() => {}, [username]);
+
   const [isLoggedIn, setIsLoggedIn] = useState(!!getCurrentUser());
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -39,6 +61,7 @@ export default function LoginArea() {
 
   const handleClose = () => {
     setIsLoginOpen(false);
+    setFormError({ isError: false, message: "" });
   };
 
   const handleChange: ChangeEventHandler<HTMLFormElement> = (e) => {
@@ -49,16 +72,30 @@ export default function LoginArea() {
 
   const handleSave = async () => {
     if (user.username !== "" && user.password !== "") {
-      await login(user);
+      login(user).then(
+        () => {
+          navigate("/home");
+          window.location.reload();
+        },
+        (error) => {
+          const errorMessage =
+            error?.response?.data?.message ||
+            error?.message ||
+            error.toString();
+          setFormError({ isError: true, message: errorMessage });
+        }
+      );
       if (getCurrentUser()) {
         setIsLoggedIn(true);
       }
+      handleClose();
     }
-    handleClose();
   };
 
   const handleLogout = () => {
     logout();
+    navigate("/");
+    window.location.reload();
     setIsLoggedIn(false);
   };
 
@@ -80,7 +117,12 @@ export default function LoginArea() {
   ];
 
   if (isLoggedIn)
-    return <LoginButton onClick={handleLogout}>Déconnexion</LoginButton>;
+    return (
+      <Login>
+        {isLoggedIn && <Username>{username}</Username>}
+        <LoginButton onClick={handleLogout}>Déconnexion</LoginButton>;
+      </Login>
+    );
 
   return (
     <Login>

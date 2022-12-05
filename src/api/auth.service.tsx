@@ -10,17 +10,17 @@ const login = async (loginReq: LoginRequest) => {
   let loginData = LoginResponseSchema.parse(response.data);
 
   if (loginData.token) {
-    localStorage.setItem("user", JSON.stringify(loginData));
+    sessionStorage.setItem("user", JSON.stringify(loginData));
   }
   return loginData;
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
 };
 
 const getCurrentUser = () => {
-  const userJSON = localStorage.getItem("user");
+  const userJSON = sessionStorage.getItem("user");
   if (userJSON) return JSON.parse(userJSON);
   else return null;
 };

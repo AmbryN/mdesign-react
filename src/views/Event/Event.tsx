@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";
@@ -14,14 +14,28 @@ import {
   usePostHost,
   usePostParticipant,
 } from "@api/hooks/usePersons";
+import {useEffect, useState} from "react";
+import {getCurrentUser} from "@api/auth.service";
 
 function Event() {
+  const navigate = useNavigate();
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user || !user.roles.includes("ROLE_USER")) navigate("/");
+    if (user && user.roles.includes("ROLE_ADMIN")) setIsAdmin(true);
+  }, [])
+
   const { id } = useParams();
   const { data: event, isLoading, isError, error } = useEvent(id!);
 
   const { data: participants, isLoading: isLoadingParticipants } =
     useParticipants(id!);
-  const { data: hosts, isLoading: isLoadingHosts } = useHosts(id!);
+
+  const { data: hosts, isLoading: isLoadingHosts } = useHosts(id!, {
+    enabled: isAdmin
+  });
 
   const postParticipant = usePostParticipant(id!);
   const deleteParticipant = useDeleteParticipant(id!);
@@ -44,7 +58,7 @@ function Event() {
     deleteHost.mutate(personId);
   };
 
-  if (isLoading || isLoadingParticipants || isLoadingHosts)
+  if (isLoading)
     return <LoadingSpinner />;
 
   if (isError) return <Alert errorMessage={error.message} />;
@@ -52,18 +66,18 @@ function Event() {
   return (
     <div className="w-4/6 m-auto flex flex-col items-center">
       <EventDescription event={event!} />
-      <PersonsListContainer
+      { !isLoadingParticipants && <PersonsListContainer
         name="Participants"
         persons={participants!}
         addPerson={addParticipant}
         deletePerson={removeParticipant}
-      />
-      <PersonsListContainer
+      />}
+      {(!isLoadingHosts && isAdmin) && <PersonsListContainer
         name="Animateurs"
         persons={hosts!}
         addPerson={addHost}
         deletePerson={removeHost}
-      />
+      />}
     </div>
   );
 }

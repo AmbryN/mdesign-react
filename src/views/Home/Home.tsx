@@ -1,76 +1,47 @@
-import FilterForm from "@components/forms/FilterForm/FilterForm";
-import { FormEventHandler, useState } from "react";
-import { useQuery } from "react-query";
-import { getMDesginResults } from "@api/query.service";
-import DataTable from "@components/DataTable/DataTable";
+import Card from "@components/layout/Card/Card";
+import { useTodayEvents } from "@api/hooks/useEvents";
+import { Event } from "@api/models";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-function Home() {
-  const [search, setSearch] = useState(false);
-  const [query, setQuery] = useState({
-    startDate: "",
-    endDate: "",
-  });
-  const {
-    data: mDesignResults,
-    isLoading,
-    isError,
-    isFetched,
-    error,
-  } = useQuery(
-    ["mdesign", query.startDate, query.endDate],
-    () => getMDesginResults(query.startDate, query.endDate),
-    {
-      enabled: search,
-      onSettled: () => setSearch(false),
-    }
-  );
+const List = styled.ul`
+  margin-top: 2rem;
+`;
+const ListItem = styled.li`
+  padding: 1rem;
 
-  const tableColumns = [
-    { header: "Lieu", name: "address" },
-    { header: "Événements", name: "events" },
-    { header: "Dates", name: "dates" },
-    { header: "Nombre d'événements", name: "nbEvents" },
-    { header: "Nombre de participants", name: "nbParticipants" },
-    { header: "Nombre d'hommes", name: "nbMen" },
-    { header: "Nombre de femmes", name: "nbWomen" },
-    { header: "Age le plus faible", name: "lowestAge" },
-    { header: "Age le plus élevé", name: "highestAge" },
-    { header: "Heures prévues", name: "soldHours" },
-    { header: "Heures réalisées", name: "executedHours" },
-  ];
+  &:hover {
+    background-color: #c6ced3;
+  }
+`;
 
-  const handleSubmit: FormEventHandler = (e) => {
-    e.preventDefault();
-    setSearch(true);
+export default function Home() {
+  const navigate = useNavigate();
+  const { data: events, isLoading, isError, error } = useTodayEvents();
+
+  const onSelect = (event: Event) => {
+      navigate(`/events/${event.id}`)
   };
 
+  if (isLoading) return <LoadingSpinner />;
+
+  if (isError) return <Alert errorMessage={error.message} />;
+
   return (
-    <div className="flex flex-col items-center">
-      <FilterForm
-        title={"Trier les données"}
-        item={query}
-        setItem={setQuery}
-        onSubmit={handleSubmit}
-      />
-
-      {isLoading && <LoadingSpinner />}
-
-      {isError && <Alert errorMessage={error.message} />}
-
-      {isFetched && (
-        <DataTable
-          columns={tableColumns}
-          rows={mDesignResults || []}
-          hasUpdate={false}
-          hasDelete={false}
-          handleUpdate={() => {}}
-          handleDelete={() => {}}
-        />
-      )}
-    </div>
+    <Card>
+      <h1>Événements du jour</h1>
+      <List>
+        {events &&
+          events.map((event, index) => (
+            <ListItem key={index}>
+              <button
+                onClick={() => onSelect(event)}
+              >{`${event.name} - ${event.address.name}`}</button>
+            </ListItem>
+          ))}
+      </List>
+    </Card>
   );
 }
-
-export default Home;

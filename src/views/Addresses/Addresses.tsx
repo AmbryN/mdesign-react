@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from "react";
+import {ChangeEventHandler, useEffect, useState} from "react";
 
 import { Address } from "@api/models";
 import {
@@ -14,8 +14,17 @@ import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import Modal from "@components/layout/Modal/Modal";
 import { BasicButton } from "@components/Buttons/Button";
+import {useNavigate} from "react-router-dom";
+import {getCurrentUser} from "@api/auth.service";
 
 function Addresses() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user || !user.roles.includes("ROLE_ADMIN")) navigate("/");
+  }, [])
+
   // CRUD GET
   const {
     data: addresses,

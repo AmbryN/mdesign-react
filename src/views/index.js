@@ -1,7 +1,9 @@
 import { Addresses } from "./Addresses";
 import { Events } from "./Events";
 import { Types } from "./Types";
-import { Home } from "./Home";
+import { Query } from "./Query";
 import { Event } from "./Event";
+import { Home } from "./Home";
+import { Login } from "./Login";
 
-export { Addresses, Events, Types, Home, Event };
+export { Addresses, Events, Types, Query, Event, Home, Login};
