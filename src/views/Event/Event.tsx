@@ -50,7 +50,7 @@ function Event() {
   if (isError) return <Alert errorMessage={error.message} />;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="w-4/6 m-auto flex flex-col items-center">
       <EventDescription event={event!} />
       <PersonsListContainer
         name="Participants"

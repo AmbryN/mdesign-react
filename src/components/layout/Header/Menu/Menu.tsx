@@ -8,7 +8,26 @@ const Nav = styled.ul`
   margin: 0;
   color: #fff;
   list-style-type: none;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  } ;
 `;
+
+const Li = styled.li`
+  margin: 0.2rem;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  background-color: #1e3a8a;
+  color: #fff;
+
+  @media (max-width: 500px) {
+    margin: 0;
+  } ;
+`;
+
 function Menu() {
   const links = [
     { name: "Accueil", path: "/" },
@@ -22,9 +41,7 @@ function Menu() {
       {links.map((link, index) => {
         return (
           <Link key={index} to={link.path}>
-            <li>
-              <BasicButton variant="primary">{link.name}</BasicButton>
-            </li>
+            <Li>{link.name}</Li>
           </Link>
         );
       })}

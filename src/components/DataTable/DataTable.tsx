@@ -30,8 +30,8 @@ function DataTable({
     <table className="w-5/6 mt-3 table-auto text-center">
       <thead>
         <tr>
-          {columns.map((column) => (
-            <th className="px-5" key={column.name}>
+          {columns.map((column, index) => (
+            <th className="px-5" key={`${index}-${column.name}`}>
               {column.header}
             </th>
           ))}
@@ -39,27 +39,36 @@ function DataTable({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <tr key={row.id}>
+        {rows.map((row, index) => (
+          <tr key={index}>
             {columns.map((column) => (
               <td className="px-5" key={`${row.id}-${column.name}`}>
-                {row[column.name].name || row[column.name]}
+                {row[column.name] ? row[column.name].name || row[column.name] : 0}
               </td>
             ))}
             {(hasUpdate || hasDelete) && (
               <td className="flex flex-wrap justify-center">
                 {hasShowDetails && (
-                  <BasicButton primary onClick={() => navigate(`./${row.id}`)}>
+                  <BasicButton
+                    variant="primary"
+                    onClick={() => navigate(`./${row.id}`)}
+                  >
                     Voir
                   </BasicButton>
                 )}
                 {hasUpdate && (
-                  <BasicButton warning onClick={() => handleUpdate(row.id)}>
+                  <BasicButton
+                    variant="warning"
+                    onClick={() => handleUpdate(row.id)}
+                  >
                     Modifier
                   </BasicButton>
                 )}
                 {hasDelete && (
-                  <BasicButton danger onClick={() => handleDelete(row.id)}>
+                  <BasicButton
+                    variant="danger"
+                    onClick={() => handleDelete(row.id)}
+                  >
                     Supprimer
                   </BasicButton>
                 )}

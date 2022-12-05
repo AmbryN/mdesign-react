@@ -7,7 +7,7 @@ import {
   getPersons,
   postHost,
   postParticipant,
-} from "@api/persons";
+} from "@api/person.service";
 import { Person } from "@api/models";
 
 const usePersons = (options?: any) =>

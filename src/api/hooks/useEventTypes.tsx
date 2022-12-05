@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-import { deleteEventType, getEventTypes, postEventType } from "@api/types";
+import {
+  deleteEventType,
+  getEventTypes,
+  postEventType,
+} from "@api/type.service";
 
 const useEventTypes = (options?: any) =>
   useQuery(["eventTypes"], getEventTypes, options);

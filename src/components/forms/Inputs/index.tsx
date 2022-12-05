@@ -1,7 +1,4 @@
-import DateInput from "./DateInput/DateInput";
-import NumberInput from "./NumberInput/NumberInput";
 import Select from "./Select/Select";
-import TextInput from "./TextInput/TextInput";
-import TimeInput from "./TimeInput/TimeInput";
+import Input from "./Input/Input";
 
-export { DateInput, NumberInput, Select, TextInput, TimeInput };
+export { Select, Input };

@@ -2,7 +2,7 @@ import { Person } from "@api/models";
 import { useState } from "react";
 import SearchBar from "@components/layout/SearchBar/SearchBar";
 import PersonsList from "@components/PersonsListContainer/PersonsList/PersonsList";
-import { getPersonByName } from "@api/persons";
+import { getPersonByName } from "@api/person.service";
 
 export default function PersonsListContainer({
   name,

@@ -1,12 +1,7 @@
 import { ChangeEventHandler } from "react";
 
-import {
-  DateInput,
-  NumberInput,
-  Select,
-  TextInput,
-  TimeInput,
-} from "@components/forms/Inputs";
+import { Select, Input } from "@components/forms/Inputs";
+import Alert from "@components/ErrorAlert/Alert";
 
 function BaseForm({
   fields,
@@ -40,26 +35,6 @@ function BaseForm({
     }
   ) => {
     switch (type) {
-      case "text":
-        return (
-          <TextInput
-            key={index}
-            label={label}
-            name={name}
-            value={value}
-            setValue={setValue}
-          />
-        );
-      case "password":
-        return (
-          <TextInput
-            key={index}
-            label={label}
-            name={name}
-            value={value}
-            setValue={setValue}
-          />
-        );
       case "select":
         return (
           <Select
@@ -71,30 +46,11 @@ function BaseForm({
             setValue={setValue}
           />
         );
-      case "number":
+      default:
         return (
-          <NumberInput
+          <Input
             key={index}
-            label={label}
-            name={name}
-            value={value}
-            setValue={setValue}
-          />
-        );
-      case "date":
-        return (
-          <DateInput
-            key={index}
-            label={label}
-            name={name}
-            value={value}
-            setValue={setValue}
-          />
-        );
-      case "time":
-        return (
-          <TimeInput
-            key={index}
+            type={type}
             label={label}
             name={name}
             value={value}
@@ -105,8 +61,8 @@ function BaseForm({
   };
 
   return (
-    <form className="flex flex-wrap justify-between">
-      {error.isError && <div>{error.message}</div>}
+    <form>
+      {error.isError && <Alert errorMessage={error.message} />}
       {fields.map((field, index) => {
         return fieldSelection(index, field);
       })}

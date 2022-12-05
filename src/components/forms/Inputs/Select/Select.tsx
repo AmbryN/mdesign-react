@@ -1,4 +1,27 @@
 import { ChangeEvent, ChangeEventHandler, Dispatch } from "react";
+import styled from "styled-components";
+
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+`;
+
+const SelectLabel = styled.label`
+  margin: 0 0 0.3rem 0.1rem;
+  font-weight: bold;
+`;
+
+const SelectInput = styled.select`
+  border: 0.1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 0.5rem;
+  background-color: #fff;
+
+  &:hover {
+    border: 0.1px solid rgba(0, 0, 0, 0.3);
+  }
+`;
 
 function Select({
   label,
@@ -25,12 +48,9 @@ function Select({
   };
 
   return (
-    <div className="flex flex-col">
-      <label htmlFor={name} className={"mx-2"}>
-        {label}
-      </label>
-      <select
-        className="p-2 rounded m-2"
+    <InputGroup>
+      <SelectLabel htmlFor={name}>{label}</SelectLabel>
+      <SelectInput
         name={name}
         value={value.id || value}
         onChange={onChange}
@@ -42,8 +62,8 @@ function Select({
             {item.name || item}
           </option>
         ))}
-      </select>
-    </div>
+      </SelectInput>
+    </InputGroup>
   );
 }
 

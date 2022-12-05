@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 
-import { DateInput } from "@components/forms/Inputs";
+import { Input } from "@components/forms/Inputs";
 import { BasicButton } from "@components/Buttons/Button";
 
 export default function FilterForm({
@@ -35,24 +35,26 @@ export default function FilterForm({
   };
 
   return (
-    <div className="flex flex-col w-5/6 p-3 my-3 bg-gray-200 rounded">
-      <div className="flex justify-between">
+    <div className="flex flex-col p-3 my-3 bg-gray-200 rounded">
+      <div>
         <h1 className="h1">{title}</h1>
       </div>
-      <form className="flex flex-wrap justify-between" onSubmit={handleSubmit}>
-        <DateInput
+      <form className="flex flex-wrap justify-center" onSubmit={handleSubmit}>
+        <Input
+          type="date"
           label="Date début"
           name="startDate"
           value={item.startDate}
           setValue={updateQuery}
         />
-        <DateInput
+        <Input
+          type="date"
           label="Date fin"
           name="endDate"
           value={item.endDate}
           setValue={updateQuery}
         />
-        <BasicButton type="submit" primary className="self-end">
+        <BasicButton type="submit" variant="primary" className="self-end">
           Rechercher
         </BasicButton>
       </form>

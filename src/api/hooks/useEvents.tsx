@@ -6,7 +6,7 @@ import {
   getTodayEvents,
   postEvent,
   putEvent,
-} from "@api/events";
+} from "@api/event.service";
 
 const useEvents = (options?: any) => {
   return useQuery("events", getEvents, options);

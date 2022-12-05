@@ -4,6 +4,7 @@ import { Person } from "@api/models";
 import { usePostParticipant } from "@api/hooks/usePersons";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import { useParams } from "react-router-dom";
+import Modal from "@components/layout/Modal/Modal";
 
 export default function SearchResults({
   results,
@@ -177,8 +178,8 @@ export default function SearchResults({
   selectItems.set("gender", ["HOMME", "FEMME"]);
 
   return (
-    <div>
-      <ul className="w-2/6 border-2 relative left-3 -top-3 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
+    <div className="absolute left-4 top-16 w-3/6">
+      <ul className="w-2/6 border-2 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
         <button onClick={onNew}>
           <li className="p-3 hover:bg-gray-300">-- Créer --</li>
         </button>
@@ -190,15 +191,19 @@ export default function SearchResults({
             ))
           : null}
       </ul>
+
       {showForm && (
-        <BaseForm
+        <Modal
           title="Créer une personne"
-          fields={formFields}
-          selectItems={selectItems}
-          error={formError}
           handleClose={handleCloseForm}
           handleSave={handleSaveForm}
-        />
+        >
+          <BaseForm
+            fields={formFields}
+            selectItems={selectItems}
+            error={formError}
+          />
+        </Modal>
       )}
     </div>
   );

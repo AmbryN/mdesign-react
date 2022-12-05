@@ -1,5 +1,22 @@
 import { z } from "zod";
 
+const LoginRequestSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+});
+
+type LoginRequest = z.infer<typeof LoginRequestSchema>;
+
+const LoginResponseSchema = z.object({
+  id: z.number().optional(),
+  username: z.string(),
+  roles: z.array(z.string()),
+  type: z.string().min(6),
+  token: z.string(),
+});
+
+type LoginResponse = z.infer<typeof LoginResponseSchema>;
+
 const AddressSchema = z.object({
   id: z.number().optional(),
   name: z.string().nullable().optional(),
@@ -70,5 +87,15 @@ export {
   EventTypeSchema,
   EventSchema,
   MDesignResultSchema,
+  LoginRequestSchema,
+  LoginResponseSchema,
 };
-export type { Address, Person, EventType, Event, MDesignResult };
+export type {
+  Address,
+  Person,
+  EventType,
+  Event,
+  MDesignResult,
+  LoginRequest,
+  LoginResponse,
+};

@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
 import { Address, Event, EventType } from "@api/models";
 import {
@@ -12,7 +12,6 @@ import Alert from "@components/ErrorAlert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
 import Modal from "@components/layout/Modal/Modal";
-import { Button } from "react-query/types/devtools/styledComponents";
 import { BasicButton } from "@components/Buttons/Button";
 
 function Events() {

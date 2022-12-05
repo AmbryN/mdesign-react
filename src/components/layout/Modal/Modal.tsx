@@ -13,10 +13,10 @@ const scale = keyframes`
 `;
 
 const ModalContainer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  padding-top: 10%;
+  padding-top: 10rem;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
@@ -25,13 +25,14 @@ const ModalContainer = styled.div`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 25%;
+  max-width: 450px;
+  max-height: 70vh;
   margin: 0 auto;
   padding: 2rem;
   border-radius: 5px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   background-color: #fff;
-  animation: ${scale} 0.2s forwards;
+  animation: ${scale} 0.1s forwards;
 `;
 
 const ModalFooter = styled.div`
@@ -41,6 +42,7 @@ const ModalFooter = styled.div`
 
 const ModalBody = styled.div`
   margin: 1rem 0;
+  overflow: scroll;
 `;
 
 export default function Modal({

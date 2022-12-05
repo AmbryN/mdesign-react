@@ -1,6 +1,5 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
-import { EventType } from "@api/models";
 import {
   useDeleteEventType,
   useEventTypes,

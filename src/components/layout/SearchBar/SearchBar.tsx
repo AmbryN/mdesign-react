@@ -1,8 +1,9 @@
-import { TextInput } from "@components/forms/Inputs";
+import { Input } from "@components/forms/Inputs";
 import { useDebounce } from "@api/hooks/useDebounce";
 import { useState } from "react";
 import SearchResults from "@components/layout/SearchResults/SearchResults";
 import { useQuery } from "react-query";
+import Alert from "@components/ErrorAlert/Alert";
 
 export default function SearchBar({
   label,
@@ -41,17 +42,23 @@ export default function SearchBar({
     setShow(true);
   };
 
+  // const onBlur = () => {
+  //   setShow(false);
+  // };
+
   return (
-    <div className="mt-5 my-3">
-      <TextInput
+    <div className="relative mt-5 my-3">
+      <Input
+        type="text"
         label={label}
         name={name}
         value={searchTerm}
         setValue={(e) => setSearchTerm(e.target.value)}
         onFocus={onFocus}
+        // onBlur={onBlur}
       />
 
-      {isError && <div>{error.message}</div>}
+      {isError && <Alert errorMessage={error.message} />}
 
       {show && results && (
         <SearchResults results={results} onSelect={onSelect} />

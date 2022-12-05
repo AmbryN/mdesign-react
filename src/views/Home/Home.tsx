@@ -1,7 +1,7 @@
 import FilterForm from "@components/forms/FilterForm/FilterForm";
 import { FormEventHandler, useState } from "react";
 import { useQuery } from "react-query";
-import { getMDesginResults } from "@api/queries";
+import { getMDesginResults } from "@api/query.service";
 import DataTable from "@components/DataTable/DataTable";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";

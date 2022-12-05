@@ -4,7 +4,7 @@ import {
   getAddressesWithTypeEvent,
   postAddress,
   putAddress,
-} from "@api/addresses";
+} from "@api/address.service";
 
 const useAddresses = (options?: any) => {
   return useQuery(
