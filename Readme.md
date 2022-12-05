@@ -18,11 +18,11 @@ which will help Fablab employees with these tasks.
   * Event types,
   * Addresses,
   * Events with their corresponding attendees' and hosts' lists
+* Displaying MDesign's specific query results
+* Authentication using JWT between the fronted app and the backend.
 
 ### Planned features
-* Displaying informative query results in a dashboard
 * Generating a CSV file with the query result
-* Authentication using JWT between the fronted app and the backend.
 
 ## Built With
 
