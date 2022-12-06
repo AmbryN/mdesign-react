@@ -1,12 +1,13 @@
 import FilterForm from "@components/forms/FilterForm/FilterForm";
-import {FormEventHandler, useEffect, useState} from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getMDesginResults } from "@api/query.service";
 import DataTable from "@components/DataTable/DataTable";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";
-import {useNavigate} from "react-router-dom";
-import {getCurrentUser} from "@api/auth.service";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "@api/auth.service";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 function Query() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Query() {
   useEffect(() => {
     const user = getCurrentUser();
     if (!user || !user.roles.includes("ROLE_ADMIN")) navigate("/");
-  }, [])
+  }, []);
 
   const [search, setSearch] = useState(false);
   const [query, setQuery] = useState({
@@ -56,7 +57,7 @@ function Query() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <BaseContainer>
       <FilterForm
         title={"Trier les données"}
         item={query}
@@ -78,7 +79,7 @@ function Query() {
           handleDelete={() => {}}
         />
       )}
-    </div>
+    </BaseContainer>
   );
 }
 

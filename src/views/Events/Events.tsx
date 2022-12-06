@@ -1,4 +1,4 @@
-import {ChangeEventHandler, useEffect, useState} from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 
 import { Address, Event, EventType } from "@api/models";
 import {
@@ -13,8 +13,9 @@ import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
 import Modal from "@components/layout/Modal/Modal";
 import { BasicButton } from "@components/Buttons/Button";
-import {getCurrentUser} from "@api/auth.service";
-import {useNavigate} from "react-router-dom";
+import { getCurrentUser } from "@api/auth.service";
+import { useNavigate } from "react-router-dom";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 function Events() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function Events() {
   useEffect(() => {
     const user = getCurrentUser();
     if (!user || !user.roles.includes("ROLE_ADMIN")) navigate("/");
-  }, [])
+  }, []);
 
   // CRUD GET
   const { data: events, isLoading, isError, error: eventsError } = useEvents();
@@ -208,7 +209,7 @@ function Events() {
   if (isError) return <Alert errorMessage={eventsError.message} />;
 
   return (
-    <div className="flex flex-col items-center">
+    <BaseContainer>
       {error.isError && <Alert errorMessage={error.message} />}
       <BasicButton variant="primary" onClick={handleNewEvent}>
         Créer un événement
@@ -238,7 +239,7 @@ function Events() {
         hasDelete={true}
         handleDelete={handleDelete}
       />
-    </div>
+    </BaseContainer>
   );
 }
 

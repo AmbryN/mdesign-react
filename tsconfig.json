@@ -22,7 +22,8 @@
       "@views/*": ["views/*"],
       "@api/*": ["api/*"],
       "@assets/*": ["assets/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["src"],
 //  "references": [{ "path": "./tsconfig.node.json" }]

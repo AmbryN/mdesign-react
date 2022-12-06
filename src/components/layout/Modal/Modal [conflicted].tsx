@@ -13,7 +13,6 @@ const scale = keyframes`
 `;
 
 const ModalContainer = styled.div`
-  z-index: 4;
   position: fixed;
   top: 0;
   left: 0;
@@ -24,10 +23,9 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  z-index: 5;
   display: flex;
   flex-direction: column;
-  max-width: 380px;
+  max-width: 450px;
   max-height: 70vh;
   margin: 0 auto;
   padding: 2rem;
@@ -43,6 +41,7 @@ const ModalFooter = styled.div`
 `;
 
 const ModalBody = styled.div`
+  margin: 1rem 0;
   overflow: scroll;
 `;
 

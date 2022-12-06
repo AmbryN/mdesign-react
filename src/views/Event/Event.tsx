@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";
@@ -14,8 +14,8 @@ import {
   usePostHost,
   usePostParticipant,
 } from "@api/hooks/usePersons";
-import {useEffect, useState} from "react";
-import {getCurrentUser} from "@api/auth.service";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@api/auth.service";
 
 function Event() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function Event() {
     const user = getCurrentUser();
     if (!user || !user.roles.includes("ROLE_USER")) navigate("/");
     if (user && user.roles.includes("ROLE_ADMIN")) setIsAdmin(true);
-  }, [])
+  }, []);
 
   const { id } = useParams();
   const { data: event, isLoading, isError, error } = useEvent(id!);
@@ -34,7 +34,7 @@ function Event() {
     useParticipants(id!);
 
   const { data: hosts, isLoading: isLoadingHosts } = useHosts(id!, {
-    enabled: isAdmin
+    enabled: isAdmin,
   });
 
   const postParticipant = usePostParticipant(id!);
@@ -58,26 +58,29 @@ function Event() {
     deleteHost.mutate(personId);
   };
 
-  if (isLoading)
-    return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
 
   if (isError) return <Alert errorMessage={error.message} />;
 
   return (
-    <div className="w-4/6 m-auto flex flex-col items-center">
+    <div className="m-auto flex flex-col items-center">
       <EventDescription event={event!} />
-      { !isLoadingParticipants && <PersonsListContainer
-        name="Participants"
-        persons={participants!}
-        addPerson={addParticipant}
-        deletePerson={removeParticipant}
-      />}
-      {(!isLoadingHosts && isAdmin) && <PersonsListContainer
-        name="Animateurs"
-        persons={hosts!}
-        addPerson={addHost}
-        deletePerson={removeHost}
-      />}
+      {!isLoadingParticipants && (
+        <PersonsListContainer
+          name="Participants"
+          persons={participants!}
+          addPerson={addParticipant}
+          deletePerson={removeParticipant}
+        />
+      )}
+      {!isLoadingHosts && isAdmin && (
+        <PersonsListContainer
+          name="Animateurs"
+          persons={hosts!}
+          addPerson={addHost}
+          deletePerson={removeHost}
+        />
+      )}
     </div>
   );
 }

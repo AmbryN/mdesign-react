@@ -120,7 +120,7 @@ export default function LoginArea() {
     return (
       <Login>
         {isLoggedIn && <Username>{username}</Username>}
-        <LoginButton onClick={handleLogout}>Déconnexion</LoginButton>;
+        <LoginButton onClick={handleLogout}>Déconnexion</LoginButton>
       </Login>
     );
 

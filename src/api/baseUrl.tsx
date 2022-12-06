@@ -1,3 +1,3 @@
-const baseUrl = "http://51.91.99.211:8080/api";
-// const baseUrl = "http://localhost:8080/api";
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export default baseUrl;

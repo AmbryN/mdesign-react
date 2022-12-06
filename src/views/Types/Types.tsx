@@ -11,6 +11,7 @@ import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import Modal from "@components/layout/Modal/Modal";
 import { BasicButton } from "@components/Buttons/Button";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 function Types() {
   // CRUD GET
@@ -106,7 +107,7 @@ function Types() {
   if (isError) return <Alert errorMessage={eventTypesError.message} />;
 
   return (
-    <div className="flex flex-col items-center">
+    <BaseContainer>
       <BasicButton variant="primary" onClick={handleNewType}>
         Créer un type
       </BasicButton>
@@ -129,7 +130,7 @@ function Types() {
         handleDelete={handleDelete}
         handleUpdate={() => {}}
       />
-    </div>
+    </BaseContainer>
   );
 }
 

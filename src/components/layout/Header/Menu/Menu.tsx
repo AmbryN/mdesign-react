@@ -1,8 +1,8 @@
 import { BasicButton } from "@components/Buttons/Button";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {useEffect, useState} from "react";
-import {getCurrentUser} from "@api/auth.service";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@api/auth.service";
 
 const Nav = styled.ul`
   display: flex;
@@ -11,7 +11,7 @@ const Nav = styled.ul`
   color: #fff;
   list-style-type: none;
 
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
@@ -25,8 +25,16 @@ const Li = styled.li`
   background-color: #1e3a8a;
   color: #fff;
 
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     margin: 0;
+    color: black;
+    background-color: rgb(252, 247, 247);
+    border-radius: 0;
+    border-bottom: 0.1px solid rgb(238, 231, 231);
+
+    &:hover {
+      background-color: rgb(238, 231, 231);
+    }
   } ;
 `;
 
@@ -36,16 +44,16 @@ function Menu() {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
-      const user = getCurrentUser();
-      if (user) {
-          setCurrentUser(user);
-          setIsUser(user.roles.includes("ROLE_USER"));
-          setIsAdmin(user.roles.includes("ROLE_ADMIN"));
-      }
-  }, [])
+    const user = getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      setIsUser(user.roles.includes("ROLE_USER"));
+      setIsAdmin(user.roles.includes("ROLE_ADMIN"));
+    }
+  }, []);
 
   const links = [
-    { name: "Accueil", path: "/home", role: ["user"]},
+    { name: "Accueil", path: "/home", role: ["user"] },
     { name: "Récapitulatif", path: "/query", role: ["admin"] },
     { name: "Événements", path: "/events", role: ["admin"] },
     { name: "Types d'événements", path: "/types", role: ["admin"] },
@@ -54,20 +62,26 @@ function Menu() {
 
   return (
     <Nav>
-      {isUser && links.filter(link => link.role.includes("user")).map((link, index) => {
-        return (
-          <Link key={`${index}-${link.path}`} to={link.path}>
-            <Li>{link.name}</Li>
-          </Link>
-        );
-      })}
-      {isAdmin && links.filter(link => link.role.includes("admin")).map((link, index) => {
-        return (
-            <Link key={`${index}-${link.path}`} to={link.path}>
-              <Li>{link.name}</Li>
-            </Link>
-        );
-      })}
+      {isUser &&
+        links
+          .filter((link) => link.role.includes("user"))
+          .map((link, index) => {
+            return (
+              <Link key={`${index}-${link.path}`} to={link.path}>
+                <Li>{link.name}</Li>
+              </Link>
+            );
+          })}
+      {isAdmin &&
+        links
+          .filter((link) => link.role.includes("admin"))
+          .map((link, index) => {
+            return (
+              <Link key={`${index}-${link.path}`} to={link.path}>
+                <Li>{link.name}</Li>
+              </Link>
+            );
+          })}
     </Nav>
   );
 }

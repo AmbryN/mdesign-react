@@ -5,6 +5,7 @@ import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/ErrorAlert/Alert";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 const List = styled.ul`
   margin-top: 2rem;
@@ -22,7 +23,7 @@ export default function Home() {
   const { data: events, isLoading, isError, error } = useTodayEvents();
 
   const onSelect = (event: Event) => {
-      navigate(`/events/${event.id}`)
+    navigate(`/events/${event.id}`);
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -30,18 +31,20 @@ export default function Home() {
   if (isError) return <Alert errorMessage={error.message} />;
 
   return (
-    <Card>
-      <h1>Événements du jour</h1>
-      <List>
-        {events &&
-          events.map((event, index) => (
-            <ListItem key={index}>
-              <button
-                onClick={() => onSelect(event)}
-              >{`${event.name} - ${event.address.name}`}</button>
-            </ListItem>
-          ))}
-      </List>
-    </Card>
+    <BaseContainer>
+      <Card>
+        <h1>Événements du jour</h1>
+        <List>
+          {events &&
+            events.map((event, index) => (
+              <ListItem key={index}>
+                <button
+                  onClick={() => onSelect(event)}
+                >{`${event.name} - ${event.address.name}`}</button>
+              </ListItem>
+            ))}
+        </List>
+      </Card>
+    </BaseContainer>
   );
 }

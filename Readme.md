@@ -20,6 +20,7 @@ which will help Fablab employees with these tasks.
   * Events with their corresponding attendees' and hosts' lists
 * Displaying MDesign's specific query results
 * Authentication using JWT between the fronted app and the backend.
+* Responsive layout for use on mobile and tablet
 
 ### Planned features
 * Generating a CSV file with the query result
@@ -29,7 +30,7 @@ which will help Fablab employees with these tasks.
 * [React](https://fr.reactjs.org/)
 * [React-Router](https://github.com/binance/binance-connector-java)
 * [React-Query](https://react-query-v3.tanstack.com/)
-* [Tailwindcss](https://tailwindcss.com)
+* [Styled-Components](https://styled-components.com)
 
 ## Authors
 

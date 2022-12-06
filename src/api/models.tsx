@@ -56,9 +56,9 @@ const EventSchema = z.object({
   date: z.string(),
   address: AddressSchema,
   soldHours: z.number().min(0),
-  startTime: z.string().optional(),
-  endTime: z.string().optional(),
-  url: z.string().optional(),
+  startTime: z.string().optional().nullable(),
+  endTime: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
   participants: z.array(PersonSchema),
   hosts: z.array(PersonSchema),
 });
