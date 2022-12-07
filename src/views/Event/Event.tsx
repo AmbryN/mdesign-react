@@ -74,7 +74,7 @@ function Event() {
     );
 
   return (
-    <div className="m-auto flex flex-col items-center">
+    <BaseContainer>
       <EventDescription event={event!} />
       {!isLoadingParticipants && (
         <PersonsListContainer
@@ -92,7 +92,7 @@ function Event() {
           deletePerson={removeHost}
         />
       )}
-    </div>
+    </BaseContainer>
   );
 }
 
