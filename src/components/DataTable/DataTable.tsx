@@ -1,8 +1,9 @@
 import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BasicButton } from "@components/Buttons/Button";
+
 import styled from "styled-components";
-import SearchBar from "@components/layout/SearchBar/SearchBar";
+
+import { BasicButton } from "@components/Buttons/Button";
 import { Input } from "@components/forms/Inputs";
 
 type Column = {
@@ -48,6 +49,9 @@ const Table = styled.table`
 
 const SortingIcon = styled.i`
   transform: scale(60%);
+  position: relative;
+  top: 0.4rem;
+  margin-left: 0.5rem;
 `;
 
 function DataTable({
