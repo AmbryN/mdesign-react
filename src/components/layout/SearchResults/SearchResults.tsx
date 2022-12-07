@@ -5,6 +5,16 @@ import { usePostParticipant } from "@api/hooks/usePersons";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import { useParams } from "react-router-dom";
 import Modal from "@components/layout/Modal/Modal";
+import styled from "styled-components";
+
+const ResultContainer = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 4.2rem;
+  width: 80%;
+  max-height: 25rem;
+  overflow: scroll;
+`
 
 export default function SearchResults({
   results,
@@ -80,6 +90,7 @@ export default function SearchResults({
         ...item,
         lastname: item.lastName.toUpperCase(),
         email: item.email.toLowerCase(),
+        phone: item.phone.replace(" ", "").replace(".", ""),
         address: {
           number: item.number,
           street: item.street,
@@ -180,7 +191,7 @@ export default function SearchResults({
   selectItems.set("gender", ["HOMME", "FEMME"]);
 
   return (
-    <div className="absolute left-4 top-16">
+    <ResultContainer>
       <ul className="border-2 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
         <button onClick={onNew}>
           <li className="p-3 hover:bg-gray-300">-- Créer --</li>
@@ -207,6 +218,6 @@ export default function SearchResults({
           />
         </Modal>
       )}
-    </div>
+    </ResultContainer>
   );
 }

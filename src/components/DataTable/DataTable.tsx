@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { BasicButton } from "@components/Buttons/Button";
 import { Input } from "@components/forms/Inputs";
+import { number } from "zod";
 
 type Column = {
   header: string;
@@ -21,7 +22,7 @@ const Table = styled.table`
     padding: 0 1rem;
   }
 
-  tr td:last-child {
+  #actions {
     display: flex;
   }
 
@@ -85,24 +86,37 @@ function DataTable({
         case "type":
           return a.type.name.localeCompare(b[type].name);
         case "address":
-          return a.address.name.localeCompare(b[type].name);
+          if (a.address.name)
+            return a.address.name.localeCompare(b.address.name);
+          return a.address.localeCompare(b.address);
+        case "name":
+          return a.name.localeCompare(b.name);
         case "date":
           const date1 = Date.parse(a.date);
           const date2 = Date.parse(b.date);
           return date2 - date1;
         default:
-          return a[type].localeCompare(b[type]);
+          if (Number.isInteger(a[type])) return a[type] - b[type];
+          else return a[type].localeCompare(b[type]);
       }
     });
     setSortedRows(sorted);
   };
 
   const filterRows = (filter: string) => {
-    if (filter === "") setFilteredRows(sortedRows);
+    filter = filter.toLowerCase();
+    if (filter === "") return setFilteredRows(sortedRows);
 
-    const filtered = [...sortedRows].filter((item) =>
-      item.name.includes(filter)
-    );
+    const filtered = [...sortedRows].filter((item) => {
+      if (item.name || item.type || item.address || item.date)
+        return (
+          item.name?.toLowerCase().includes(filter) ||
+          item.type?.name?.toLowerCase().includes(filter) ||
+          item.address?.name?.toLowerCase().includes(filter) ||
+          item.date?.includes(filter)
+        );
+      return true;
+    });
     setFilteredRows(filtered);
   };
 
@@ -159,7 +173,7 @@ function DataTable({
                 </td>
               ))}
               {(hasUpdate || hasDelete) && (
-                <td label="Actions">
+                <td label="Actions" id="actions">
                   {hasShowDetails && (
                     <BasicButton
                       variant="primary"
