@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import EventDescription from "@components/EventDescription/EventDescription";
 import PersonsListContainer from "@components/PersonsListContainer/PersonsListContainer";
 import { useEvent } from "@api/hooks/useEvents";
@@ -16,6 +16,7 @@ import {
 } from "@api/hooks/usePersons";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@api/auth.service";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 function Event() {
   const navigate = useNavigate();
@@ -58,9 +59,19 @@ function Event() {
     deleteHost.mutate(personId);
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading)
+    return (
+      <BaseContainer>
+        <LoadingSpinner />
+      </BaseContainer>
+    );
 
-  if (isError) return <Alert errorMessage={error.message} />;
+  if (isError)
+    return (
+      <BaseContainer>
+        <Alert errorMessage={error.message} />
+      </BaseContainer>
+    );
 
   return (
     <div className="m-auto flex flex-col items-center">

@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { getMDesginResults } from "@api/query.service";
 import DataTable from "@components/DataTable/DataTable";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@api/auth.service";
 import BaseContainer from "@components/layout/BaseContainer/BaseContainer";

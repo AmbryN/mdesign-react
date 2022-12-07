@@ -3,7 +3,7 @@ import { useDebounce } from "@api/hooks/useDebounce";
 import { useState } from "react";
 import SearchResults from "@components/layout/SearchResults/SearchResults";
 import { useQuery } from "react-query";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 
 export default function SearchBar({
   label,
@@ -42,10 +42,6 @@ export default function SearchBar({
     setShow(true);
   };
 
-  // const onBlur = () => {
-  //   setShow(false);
-  // };
-
   return (
     <div className="relative mt-5 my-3">
       <Input
@@ -55,7 +51,6 @@ export default function SearchBar({
         value={searchTerm}
         setValue={(e) => setSearchTerm(e.target.value)}
         onFocus={onFocus}
-        // onBlur={onBlur}
       />
 
       {isError && <Alert errorMessage={error.message} />}

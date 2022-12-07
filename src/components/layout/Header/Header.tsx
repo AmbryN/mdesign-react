@@ -2,12 +2,12 @@ import logo from "@assets/img/logo.png";
 import styled, { keyframes } from "styled-components";
 import Login from "./LoginArea/LoginArea";
 import Menu from "./Menu/Menu";
-import { useState } from "react";
+import { useRef, useState} from "react";
 
 const translate = keyframes`
   from {
     transform: translate(0);
- }
+  }
 
   to {
     transform: translate(50%);
@@ -17,7 +17,10 @@ const translate = keyframes`
 const NavBar = styled.div`
   z-index: 3;
   position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
+  height: 72px;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +52,7 @@ const MenuToggle = styled.button`
 const SideMenu = styled.div`
   background-color: rgb(252, 247, 247);
   position: absolute;
-  top: 2.7rem;
+  top: 72px;
   left: 0;
   width: 200px;
   height: 1000px;
@@ -60,13 +63,20 @@ const SideMenu = styled.div`
 `;
 
 export default function Header() {
-  const [menuToggled, toggleMenu] = useState(false);
+  const menu = useRef(null);
+
+  const [menuIsOpen, toggleMenu] = useState(false);
   const onToggle = () => {
-    toggleMenu(!menuToggled);
+    toggleMenu(!menuIsOpen);
   };
 
+  const closeMenu = (e: MouseEvent) => {
+      if (menu.current && menuIsOpen && !menu.current.contains(e.target)) toggleMenu(false)
+  }
+  document.addEventListener("click", closeMenu);
+
   return (
-    <NavBar>
+    <NavBar ref={menu}>
       <MenuToggle className="material-icons" onClick={onToggle}>
         menu
       </MenuToggle>
@@ -75,8 +85,8 @@ export default function Header() {
         <Menu />
       </Navigation>
       <Login />
-      {menuToggled && (
-        <SideMenu>
+      {menuIsOpen && (
+        <SideMenu  onClick={onToggle}>
           <Menu />
         </SideMenu>
       )}

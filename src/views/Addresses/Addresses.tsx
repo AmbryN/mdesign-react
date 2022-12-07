@@ -9,7 +9,7 @@ import {
 } from "@api/hooks/useAddresses";
 
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import Modal from "@components/layout/Modal/Modal";
@@ -123,7 +123,7 @@ function Addresses() {
   const updateAddress: ChangeEventHandler<HTMLFormElement> = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setAddress({ ...address, [name]: value });
+    setAddress({ ...address, [name]: value.trimStart() });
   };
 
   // COMPONENT STATE
@@ -142,7 +142,7 @@ function Addresses() {
     { header: "#", name: "id" },
     { header: "Nom", name: "name" },
     { header: "Numéro", name: "number" },
-    { header: "Rue", name: "street" },
+    { header: "Nom de la rue", name: "street" },
     { header: "Code Postal", name: "postalCode" },
     { header: "Ville", name: "city" },
   ];
@@ -163,7 +163,7 @@ function Addresses() {
       setValue: updateAddress,
     },
     {
-      label: "Rue",
+      label: "Nom de la rue",
       name: "street",
       type: "text",
       value: address.street,
@@ -186,9 +186,19 @@ function Addresses() {
   ];
 
   // RENDER
-  if (isLoadingAddresses) return <LoadingSpinner />;
+  if (isLoadingAddresses)
+    return (
+      <BaseContainer>
+        <LoadingSpinner />
+      </BaseContainer>
+    );
 
-  if (isErrorAddresses) return <Alert errorMessage={addressesError.message} />;
+  if (isErrorAddresses)
+    return (
+      <BaseContainer>
+        <Alert errorMessage={addressesError.message} />
+      </BaseContainer>
+    );
 
   return (
     <BaseContainer>

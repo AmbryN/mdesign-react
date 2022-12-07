@@ -6,7 +6,7 @@ import {
   usePostEventType,
 } from "@api/hooks/useEventTypes";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import Modal from "@components/layout/Modal/Modal";
@@ -102,16 +102,26 @@ function Types() {
   ];
 
   // RENDER
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading)
+    return (
+      <BaseContainer>
+        <LoadingSpinner />
+      </BaseContainer>
+    );
 
-  if (isError) return <Alert errorMessage={eventTypesError.message} />;
+  if (isError)
+    return (
+      <BaseContainer>
+        <Alert errorMessage={eventTypesError.message} />
+      </BaseContainer>
+    );
 
   return (
     <BaseContainer>
       <BasicButton variant="primary" onClick={handleNewType}>
         Créer un type
       </BasicButton>
-      {error.isError && <div>{error.message}</div>}
+      {error.isError && <Alert errorMessage={error.message}></Alert>}
       {showForm && (
         <Modal
           title={"Ajouter un type"}

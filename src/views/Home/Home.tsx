@@ -2,7 +2,7 @@ import Card from "@components/layout/Card/Card";
 import { useTodayEvents } from "@api/hooks/useEvents";
 import { Event } from "@api/models";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import BaseContainer from "@components/layout/BaseContainer/BaseContainer";

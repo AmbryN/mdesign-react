@@ -39,6 +39,9 @@ function Input({
   onFocus?: ChangeEventHandler<HTMLInputElement>;
   onBlur?: ChangeEventHandler<HTMLInputElement>;
 }) {
+  const isTime = () => type === "time";
+  const isNumber = () => type === "number";
+
   return (
     <InputGroup>
       <InputLabel htmlFor={name}>{label} :</InputLabel>
@@ -52,8 +55,8 @@ function Input({
         onFocus={onFocus}
         onBlur={onBlur}
         required
-        pattern="[0-9]{2}:[0-9]{2}" // Used only for time
-        min="0" // Used only for number
+        pattern={isTime() ? "[0-9]{2}:[0-9]{2}" : ""} // Used only for time
+        min={isNumber() ? "0" : ""} // Used only for number
       />
     </InputGroup>
   );

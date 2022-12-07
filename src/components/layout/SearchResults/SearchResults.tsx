@@ -78,6 +78,8 @@ export default function SearchResults({
     ) {
       const newItem = {
         ...item,
+        lastname: item.lastName.toUpperCase(),
+        email: item.email.toLowerCase(),
         address: {
           number: item.number,
           street: item.street,
@@ -133,14 +135,14 @@ export default function SearchResults({
     {
       label: "Email",
       name: "email",
-      type: "text",
+      type: "email",
       value: item.email,
       setValue: updateItem,
     },
     {
       label: "Téléphone",
       name: "phone",
-      type: "text",
+      type: "phone",
       value: item.phone,
       setValue: updateItem,
     },
@@ -178,8 +180,8 @@ export default function SearchResults({
   selectItems.set("gender", ["HOMME", "FEMME"]);
 
   return (
-    <div className="absolute left-4 top-16 w-3/6">
-      <ul className="w-2/6 border-2 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
+    <div className="absolute left-4 top-16">
+      <ul className="border-2 flex flex-col bg-white divide-y divide-dashed divide-gray-300">
         <button onClick={onNew}>
           <li className="p-3 hover:bg-gray-300">-- Créer --</li>
         </button>

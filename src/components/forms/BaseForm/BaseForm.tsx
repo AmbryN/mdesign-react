@@ -1,7 +1,7 @@
 import { ChangeEventHandler } from "react";
 
 import { Select, Input } from "@components/forms/Inputs";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 
 function BaseForm({
   fields,

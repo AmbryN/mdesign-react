@@ -5,6 +5,7 @@ import { LoginRequest } from "@api/models";
 import { useNavigate } from "react-router-dom";
 import Card from "@components/layout/Card/Card";
 import { BasicButton } from "@components/Buttons/Button";
+import BaseContainer from "@components/layout/BaseContainer/BaseContainer";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -63,11 +64,13 @@ export default function Login() {
   ];
 
   return (
-    <Card handleSave={handleSave}>
-      <BaseForm fields={formFiels} error={formError} />
-      <BasicButton variant="primary" onClick={handleSave}>
-        S'identifier
-      </BasicButton>
-    </Card>
+    <BaseContainer>
+      <Card handleSave={handleSave}>
+        <BaseForm fields={formFiels} error={formError} />
+        <BasicButton variant="primary" onClick={handleSave}>
+          S'identifier
+        </BasicButton>
+      </Card>
+    </BaseContainer>
   );
 }

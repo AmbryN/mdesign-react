@@ -8,7 +8,7 @@ import {
   usePutEvent,
 } from "@api/hooks/useEvents";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
-import Alert from "@components/ErrorAlert/Alert";
+import Alert from "@components/Alert/Alert";
 import DataTable from "@components/DataTable/DataTable";
 import ConnectedEventForm from "@components/forms/ConnectedEventForm/ConnectedEventForm";
 import Modal from "@components/layout/Modal/Modal";
@@ -204,9 +204,19 @@ function Events() {
   ];
 
   // RENDER
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading)
+    return (
+      <BaseContainer>
+        <LoadingSpinner />
+      </BaseContainer>
+    );
 
-  if (isError) return <Alert errorMessage={eventsError.message} />;
+  if (isError)
+    return (
+      <BaseContainer>
+        <Alert errorMessage={eventsError.message} />
+      </BaseContainer>
+    );
 
   return (
     <BaseContainer>
