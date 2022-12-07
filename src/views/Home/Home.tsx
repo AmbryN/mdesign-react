@@ -35,14 +35,17 @@ export default function Home() {
       <Card>
         <h1>Événements du jour</h1>
         <List>
-          {events &&
-            events.map((event, index) => (
+          {events!.length > 0 ? (
+            events!.map((event, index) => (
               <ListItem key={index}>
                 <button
                   onClick={() => onSelect(event)}
                 >{`${event.name} - ${event.address.name}`}</button>
               </ListItem>
-            ))}
+            ))
+          ) : (
+            <p>Pas d'événements aujourd'hui</p>
+          )}
         </List>
       </Card>
     </BaseContainer>
