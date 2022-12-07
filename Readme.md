@@ -1,6 +1,6 @@
 # MDesign - React Frontend
 
-Single page application build with React for interacting with a REST API (built with Java Spring).
+Single page application, build with React, for interacting with a REST API, built with Java Spring.
 
 ## Use case
 
@@ -14,10 +14,11 @@ which will help Fablab employees with these tasks.
 ## Features
 
 ### Working features
-* Fetching, Adding, Editing and Deleting data (CRUD) in collaboration with the Spring backend REST API, for instance:
+* Fetching and displaying, Adding, Editing and Deleting data (CRUD) in collaboration with the Spring backend REST API, for instance:
   * Event types,
   * Addresses,
   * Events with their corresponding attendees' and hosts' lists
+* Filtering and searching for specific items in the results
 * Displaying MDesign's specific query results
 * Authentication using JWT between the fronted app and the backend.
 * Responsive layout for use on mobile and tablet
@@ -28,7 +29,7 @@ which will help Fablab employees with these tasks.
 ## Built With
 
 * [React](https://fr.reactjs.org/)
-* [React-Router](https://github.com/binance/binance-connector-java)
+* [React-Router](https://reactrouter.com/en/main)
 * [React-Query](https://react-query-v3.tanstack.com/)
 * [Styled-Components](https://styled-components.com)
 
