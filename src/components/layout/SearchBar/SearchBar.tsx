@@ -10,11 +10,13 @@ export default function SearchBar({
   name,
   queryParameters,
   select,
+  onCreate,
 }: {
   label: string;
   name: string;
   queryParameters: { queryKey: string[]; queryFn: Function };
   select: Function;
+  onCreate: Function;
 }) {
   // STATE
   const [searchTerm, setSearchTerm] = useState("");
@@ -56,7 +58,11 @@ export default function SearchBar({
       {isError && <Alert errorMessage={error.message} />}
 
       {show && results && (
-        <SearchResults results={results} onSelect={onSelect} />
+        <SearchResults
+          results={results}
+          onSelect={onSelect}
+          onCreate={onCreate}
+        />
       )}
     </div>
   );

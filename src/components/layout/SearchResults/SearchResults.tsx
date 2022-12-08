@@ -1,11 +1,11 @@
 import { ChangeEventHandler, useState } from "react";
 
 import { Person } from "@api/models";
-import { usePostParticipant } from "@api/hooks/usePersons";
 import BaseForm from "@components/forms/BaseForm/BaseForm";
 import { useParams } from "react-router-dom";
 import Modal from "@components/layout/Modal/Modal";
 import styled from "styled-components";
+import { usePostEventPerson } from "@api/hooks/usePersons";
 
 const ResultContainer = styled.div`
   position: absolute;
@@ -14,16 +14,18 @@ const ResultContainer = styled.div`
   width: 80%;
   max-height: 25rem;
   overflow: scroll;
-`
+`;
 
 export default function SearchResults({
   results,
   onSelect,
+  onCreate,
 }: {
   results: Person[];
   onSelect: Function;
+  onCreate: Function;
 }) {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   // STATE
   const [showForm, setShowForm] = useState(false);
@@ -43,7 +45,7 @@ export default function SearchResults({
   });
 
   // DATA
-  const postParticipant = usePostParticipant(id!);
+  // const postParticipant = usePostEventPerson(id!, "participants");
 
   // EVENT HANDLERS
   const onNew = () => {
@@ -88,7 +90,7 @@ export default function SearchResults({
     ) {
       const newItem = {
         ...item,
-        lastname: item.lastName.toUpperCase(),
+        lastName: item.lastName.toUpperCase(),
         email: item.email.toLowerCase(),
         phone: item.phone.replace(" ", "").replace(".", ""),
         address: {
@@ -99,7 +101,7 @@ export default function SearchResults({
           type: item.type,
         },
       };
-      postParticipant.mutate(newItem);
+      onCreate.mutate(newItem);
       handleCloseForm();
     } else {
       setFormError({

@@ -1,10 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
+  deleteEventPerson,
   deleteHost,
   deleteParticipant,
+  getEventPersons,
   getHosts,
   getParticipants,
   getPersons,
+  postEventPerson,
   postHost,
   postParticipant,
 } from "@api/person.service";
@@ -13,70 +16,43 @@ import { Person } from "@api/models";
 const usePersons = (options?: any) =>
   useQuery(["persons"], getPersons, options);
 
-const useParticipants = (eventId: string, options?: any) => {
+const useEventPersons = (eventId: string, type: string, options?: any) => {
   return useQuery(
-    ["participants", eventId],
-    () => getParticipants(eventId),
+    ["event", eventId],
+    (t) => getEventPersons(eventId, type),
     options
   );
 };
 
-const usePostParticipant = (eventId: string, options?: any) => {
+const usePostEventPerson = (eventId: string, type: string, options?: any) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (participant: Person) => postParticipant(eventId, participant),
+    (person: Person) => postEventPerson(eventId, type, person),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["participants", eventId]);
+        queryClient.invalidateQueries(["event", eventId]);
       },
       ...options,
     }
   );
 };
 
-const useDeleteParticipant = (eventId: string, options?: any) => {
+const useDeleteEventPerson = (eventId: string, type: string, options?: any) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (participantId: number) => deleteParticipant(eventId, participantId),
+    (personId: number) => deleteEventPerson(eventId, type, personId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["participants", eventId]);
+        queryClient.invalidateQueries(["event", eventId]);
       },
       ...options,
     }
   );
-};
-
-const useHosts = (eventId: string, options?: any) => {
-  return useQuery(["hosts", eventId], () => getHosts(eventId), options);
-};
-
-const usePostHost = (eventId: string, options?: any) => {
-  const queryClient = useQueryClient();
-  return useMutation((host: Person) => postHost(eventId, host), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["hosts", eventId]);
-    },
-    ...options,
-  });
-};
-
-const useDeleteHost = (eventId: string, options?: any) => {
-  const queryClient = useQueryClient();
-  return useMutation((hostId: number) => deleteHost(eventId, hostId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["hosts", eventId]);
-    },
-    ...options,
-  });
 };
 
 export {
   usePersons,
-  useParticipants,
-  usePostParticipant,
-  useDeleteParticipant,
-  useHosts,
-  usePostHost,
-  useDeleteHost,
+  useEventPersons,
+  usePostEventPerson,
+  useDeleteEventPerson,
 };

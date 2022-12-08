@@ -1,12 +1,7 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 
 import { Address, Event, EventType } from "@api/models";
-import {
-  useDeleteEvent,
-  useEvents,
-  usePostEvent,
-  usePutEvent,
-} from "@api/hooks/useEvents";
+import { useEvents, usePostEvent, usePutEvent } from "@api/hooks/useEvents";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
 import Alert from "@components/Alert/Alert";
 import DataTable from "@components/DataTable/DataTable";
@@ -48,26 +43,12 @@ function Events() {
     },
   });
 
-  // CRUD DELETE
-  const deleteQuery = useDeleteEvent({
-    onError: () => {
-      setError({
-        isError: true,
-        message: "Impossible de supprimer l'événement",
-      });
-    },
-  });
-
   // EVENT HANDLERS
   const handleUpdate = (id: string) => {
     setEvent(
       events!.find((event) => event.id === parseInt(id)) ?? ({} as Event)
     );
     setShowForm(true);
-  };
-
-  const handleDelete = (id: string) => {
-    deleteQuery.mutate(id);
   };
 
   const handleClose = () => {
@@ -88,6 +69,7 @@ function Events() {
       startTime: "",
       endTime: "",
       url: "",
+      contacts: [],
       participants: [],
       hosts: [],
     });
@@ -246,8 +228,8 @@ function Events() {
         hasShowDetails={true}
         hasUpdate={true}
         handleUpdate={handleUpdate}
-        hasDelete={true}
-        handleDelete={handleDelete}
+        hasDelete={false}
+        handleDelete={() => {}}
       />
     </BaseContainer>
   );

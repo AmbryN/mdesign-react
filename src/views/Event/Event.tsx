@@ -7,12 +7,8 @@ import PersonsListContainer from "@components/PersonsListContainer/PersonsListCo
 import { useEvent } from "@api/hooks/useEvents";
 import { Person } from "@api/models";
 import {
-  useDeleteHost,
-  useDeleteParticipant,
-  useHosts,
-  useParticipants,
-  usePostHost,
-  usePostParticipant,
+  useDeleteEventPerson,
+  usePostEventPerson,
 } from "@api/hooks/usePersons";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@api/auth.service";
@@ -31,18 +27,20 @@ function Event() {
   const { id } = useParams();
   const { data: event, isLoading, isError, error } = useEvent(id!);
 
-  const { data: participants, isLoading: isLoadingParticipants } =
-    useParticipants(id!);
+  const postContact = usePostEventPerson(id!, "contacts");
+  const deleteContact = useDeleteEventPerson(id!, "contacts");
+  const postParticipant = usePostEventPerson(id!, "participants");
+  const deleteParticipant = useDeleteEventPerson(id!, "participants");
+  const postHost = usePostEventPerson(id!, "hosts");
+  const deleteHost = useDeleteEventPerson(id!, "hosts");
 
-  const { data: hosts, isLoading: isLoadingHosts } = useHosts(id!, {
-    enabled: isAdmin,
-  });
+  const addContact = (participant: Person) => {
+    postContact.mutate(participant);
+  };
 
-  const postParticipant = usePostParticipant(id!);
-  const deleteParticipant = useDeleteParticipant(id!);
-  const postHost = usePostHost(id!);
-  const deleteHost = useDeleteHost(id!);
-
+  const removeContact = (personId: number) => {
+    deleteContact.mutate(personId);
+  };
   const addParticipant = (participant: Person) => {
     postParticipant.mutate(participant);
   };
@@ -76,20 +74,30 @@ function Event() {
   return (
     <BaseContainer>
       <EventDescription event={event!} />
-      {!isLoadingParticipants && (
-        <PersonsListContainer
-          name="Participants"
-          persons={participants!}
-          addPerson={addParticipant}
-          deletePerson={removeParticipant}
-        />
-      )}
-      {!isLoadingHosts && isAdmin && (
+
+      <PersonsListContainer
+        name="Contacts"
+        persons={event?.contacts!}
+        addPerson={addContact}
+        deletePerson={removeContact}
+        onCreate={postContact}
+      />
+
+      <PersonsListContainer
+        name="Participants"
+        persons={event?.participants!}
+        addPerson={addParticipant}
+        deletePerson={removeParticipant}
+        onCreate={postParticipant}
+      />
+
+      {isAdmin && (
         <PersonsListContainer
           name="Animateurs"
-          persons={hosts!}
+          persons={event?.hosts!}
           addPerson={addHost}
           deletePerson={removeHost}
+          onCreate={postHost}
         />
       )}
     </BaseContainer>

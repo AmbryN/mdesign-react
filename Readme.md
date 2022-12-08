@@ -13,18 +13,25 @@ which will help Fablab employees with these tasks.
 
 ## Features
 
+![Datatable](readme/datatable.png)
+
 ### Working features
 * Fetching and displaying, Adding, Editing and Deleting data (CRUD) in collaboration with the Spring backend REST API, for instance:
   * Event types,
   * Addresses,
-  * Events with their corresponding attendees' and hosts' lists
-* Filtering and searching for specific items in the results
+
+ ![Form](readme/form.png)
+  * Filtering for specific items in the results
+
+  ![Filter](readme/filter.png)
+  * Events with their corresponding contacts, attendees and hosts
+  
+  ![Lists](readme/lists.png)
 * Displaying MDesign's specific query results
 * Authentication using JWT between the fronted app and the backend.
 * Responsive layout for use on mobile and tablet
-
-### Planned features
-* Generating a CSV file with the query result
+ 
+![Mobile UI](readme/mobile.png)]  ![Mobile Menu](readme/mobile_menu.png)
 
 ## Built With
 
@@ -32,6 +39,7 @@ which will help Fablab employees with these tasks.
 * [React-Router](https://reactrouter.com/en/main)
 * [React-Query](https://react-query-v3.tanstack.com/)
 * [Styled-Components](https://styled-components.com)
+* [Tailwind](https://tailwindcss.com/)
 
 ## Authors
 

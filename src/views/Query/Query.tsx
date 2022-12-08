@@ -38,7 +38,8 @@ function Query() {
   );
 
   const tableColumns = [
-    { header: "Lieu", name: "address" },
+    { header: "Type", name: "type" },
+    { header: "Lieux", name: "addresses" },
     { header: "Événements", name: "events" },
     { header: "Dates", name: "dates" },
     { header: "Nombre d'événements", name: "nbEvents" },

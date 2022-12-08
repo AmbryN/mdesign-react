@@ -59,6 +59,7 @@ const EventSchema = z.object({
   startTime: z.string().optional().nullable(),
   endTime: z.string().optional().nullable(),
   url: z.string().optional().nullable(),
+  contacts: z.array(PersonSchema),
   participants: z.array(PersonSchema),
   hosts: z.array(PersonSchema),
 });
@@ -66,7 +67,8 @@ const EventSchema = z.object({
 type Event = z.infer<typeof EventSchema>;
 
 const MDesignResultSchema = z.object({
-  address: z.string(),
+  type: z.string(),
+  addresses: z.string(),
   events: z.string(),
   dates: z.string(),
   nbEvents: z.number(),

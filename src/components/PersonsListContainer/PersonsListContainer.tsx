@@ -9,11 +9,13 @@ export default function PersonsListContainer({
   persons,
   addPerson,
   deletePerson,
+  onCreate,
 }: {
   name: string;
   persons: Person[];
   addPerson: Function;
   deletePerson: Function;
+  onCreate: Function;
 }) {
   const [showSearch, setShowSearch] = useState(false);
 
@@ -50,6 +52,7 @@ export default function PersonsListContainer({
             name="name"
             select={addPerson}
             queryParameters={searchBarQueryParams}
+            onCreate={onCreate}
           />
         )}
       </div>

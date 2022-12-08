@@ -84,7 +84,8 @@ function DataTable({
         case "id":
           return parseInt(a.id) - parseInt(b.id);
         case "type":
-          return a.type.name.localeCompare(b[type].name);
+          if (a.type.name) return a.type.name.localeCompare(b[type].name);
+          return a.type.localeCompare(b.type);
         case "address":
           if (a.address.name)
             return a.address.name.localeCompare(b.address.name);
@@ -111,8 +112,12 @@ function DataTable({
       if (item.name || item.type || item.address || item.date)
         return (
           item.name?.toLowerCase().includes(filter) ||
-          item.type?.name?.toLowerCase().includes(filter) ||
-          item.address?.name?.toLowerCase().includes(filter) ||
+          (item.type?.name
+            ? item.type?.name?.toLowerCase().includes(filter)
+            : item.type?.toLowerCase().includes(filter)) ||
+          (item.address?.name
+            ? item.address?.name?.toLowerCase().includes(filter)
+            : item.address?.toLowerCase().includes(filter)) ||
           item.date?.includes(filter)
         );
       return true;
@@ -127,11 +132,11 @@ function DataTable({
 
   useEffect(() => {
     sortRows(sortType);
-  }, [sortType]);
+  }, [rows, sortType]);
 
   useEffect(() => {
     filterRows(filter);
-  }, [filter, sortedRows]);
+  }, [rows, filter, sortedRows]);
 
   return (
     <div>

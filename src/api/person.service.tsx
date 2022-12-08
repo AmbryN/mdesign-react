@@ -21,6 +21,38 @@ const postPerson = async (person: Person) => {
   return response.data;
 };
 
+const getEventPersons = async (eventId: string, type: string) => {
+  let response = await axios.get(`${baseUrl}/events/${eventId}/${type}`, {
+    headers: authHeader(),
+  });
+  return personsArray.parse(response.data);
+};
+
+const postEventPerson = async (
+  eventId: string,
+  type: string,
+  person: Person
+) => {
+  let response = await axios.post(
+    `${baseUrl}/events/${eventId}/${type}`,
+    person,
+    { headers: authHeader() }
+  );
+  return response.data;
+};
+
+const deleteEventPerson = async (
+  eventId: string,
+  type: string,
+  personId: number
+) => {
+  let response = await axios.delete(
+    `${baseUrl}/events/${eventId}/${type}/${personId}`,
+    { headers: authHeader() }
+  );
+  return response.data;
+};
+
 const getParticipants = async (eventId: string) => {
   let response = await axios.get(`${baseUrl}/events/${eventId}/participants`, {
     headers: authHeader(),
@@ -84,4 +116,7 @@ export {
   postHost,
   deleteHost,
   getPersonByName,
+  getEventPersons,
+  postEventPerson,
+  deleteEventPerson,
 };
