@@ -1,11 +1,10 @@
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 import { BasicButton } from "@components/Buttons/Button";
 import { Input } from "@components/forms/Inputs";
-import { number } from "zod";
 
 type Column = {
   header: string;

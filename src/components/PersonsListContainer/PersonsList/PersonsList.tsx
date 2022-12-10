@@ -3,9 +3,11 @@ import { Person } from "@api/models";
 export default function PersonsList({
   persons,
   deletePerson,
+  isAdmin,
 }: {
   persons: Person[];
   deletePerson: Function;
+  isAdmin: boolean;
 }) {
   return (
     <ul className="divide-y divide-gray-400">
@@ -17,9 +19,11 @@ export default function PersonsList({
               <p className="ml-2">{`${person.email}`}</p>
               <p className="ml-2">{`${person.phone}`}</p>
             </span>
-            <button onClick={() => deletePerson(person.id!)}>
-              <i className="material-icons">delete</i>
-            </button>
+            {isAdmin ? (
+              <button onClick={() => deletePerson(person.id!)}>
+                <i className="material-icons">delete</i>
+              </button>
+            ) : null}
           </li>
         );
       })}

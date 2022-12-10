@@ -2,10 +2,19 @@ import { Event } from "@api/models";
 import { useDeleteEvent } from "@api/hooks/useEvents";
 import { BasicButton } from "@components/Buttons/Button";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@api/auth.service";
 
-export default function EventDescription({ event }: { event: Event }) {
+export default function EventDescription({
+  event,
+  isAdmin,
+}: {
+  event: Event;
+  isAdmin: boolean;
+}) {
   const navigate = useNavigate();
   const { id } = useParams();
+
   // CRUD DELETE
   const deleteQuery = useDeleteEvent();
 
@@ -21,9 +30,11 @@ export default function EventDescription({ event }: { event: Event }) {
       <div className="mb-3">
         <div className="flex justify-between">
           <h1>{name}</h1>
-          <BasicButton variant="danger" onClick={() => handleDelete(id!)}>
-            Supprimer
-          </BasicButton>
+          {isAdmin ? (
+            <BasicButton variant="danger" onClick={() => handleDelete(id!)}>
+              Supprimer
+            </BasicButton>
+          ) : null}
         </div>
         {url && (
           <a className="opacity-50" href={url}>

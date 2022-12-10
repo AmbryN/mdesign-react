@@ -1,5 +1,5 @@
 import { Person } from "@api/models";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "@components/layout/SearchBar/SearchBar";
 import PersonsList from "@components/PersonsListContainer/PersonsList/PersonsList";
 import { getPersonByName } from "@api/person.service";
@@ -10,12 +10,14 @@ export default function PersonsListContainer({
   addPerson,
   deletePerson,
   onCreate,
+  isAdmin,
 }: {
   name: string;
   persons: Person[];
   addPerson: Function;
   deletePerson: Function;
   onCreate: Function;
+  isAdmin: boolean;
 }) {
   const [showSearch, setShowSearch] = useState(false);
 
@@ -56,7 +58,11 @@ export default function PersonsListContainer({
           />
         )}
       </div>
-      <PersonsList persons={persons} deletePerson={deletePerson} />
+      <PersonsList
+        persons={persons}
+        deletePerson={deletePerson}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }

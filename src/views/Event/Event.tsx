@@ -73,15 +73,18 @@ function Event() {
 
   return (
     <BaseContainer>
-      <EventDescription event={event!} />
+      <EventDescription event={event!} isAdmin={isAdmin} />
 
-      <PersonsListContainer
-        name="Contacts"
-        persons={event?.contacts!}
-        addPerson={addContact}
-        deletePerson={removeContact}
-        onCreate={postContact}
-      />
+      {isAdmin ? (
+        <PersonsListContainer
+          name="Contacts"
+          persons={event?.contacts!}
+          addPerson={addContact}
+          deletePerson={removeContact}
+          onCreate={postContact}
+          isAdmin={isAdmin}
+        />
+      ) : null}
 
       <PersonsListContainer
         name="Participants"
@@ -89,6 +92,7 @@ function Event() {
         addPerson={addParticipant}
         deletePerson={removeParticipant}
         onCreate={postParticipant}
+        isAdmin={isAdmin}
       />
 
       {isAdmin && (
@@ -98,6 +102,7 @@ function Event() {
           addPerson={addHost}
           deletePerson={removeHost}
           onCreate={postHost}
+          isAdmin={isAdmin}
         />
       )}
     </BaseContainer>
