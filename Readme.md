@@ -1,6 +1,6 @@
 # MDesign - React Frontend
 
-Single page application, build with React, for interacting with a REST API, built with Java Spring.
+Single page application, build with React, for interacting with a REST API, built with Java Spring (see [API](https://github.com/AmbryN/mdesign-api)).
 
 ## Use case
 
