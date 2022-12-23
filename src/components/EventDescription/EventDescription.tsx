@@ -2,8 +2,8 @@ import { Event } from "@api/models";
 import { useDeleteEvent } from "@api/hooks/useEvents";
 import { BasicButton } from "@components/Buttons/Button";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "@api/auth.service";
+import { useState } from "react";
+import Modal from "@components/layout/Modal/Modal";
 
 export default function EventDescription({
   event,
@@ -14,13 +14,21 @@ export default function EventDescription({
 }) {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   // CRUD DELETE
   const deleteQuery = useDeleteEvent();
 
-  const handleDelete = (id: string) => {
-    deleteQuery.mutate(id);
+  const stageForDeletion = () => {
+    setShowConfirmDelete(true);
+  };
+  const handleDelete = () => {
+    deleteQuery.mutate(id!);
     navigate("/home");
+  };
+
+  const handleClose = () => {
+    setShowConfirmDelete(false);
   };
 
   const { name, type, date, address, soldHours, startTime, endTime, url } =
@@ -31,9 +39,20 @@ export default function EventDescription({
         <div className="flex justify-between">
           <h1>{name}</h1>
           {isAdmin ? (
-            <BasicButton variant="danger" onClick={() => handleDelete(id!)}>
-              Supprimer
-            </BasicButton>
+            <div>
+              <BasicButton variant="danger" onClick={() => stageForDeletion()}>
+                Supprimer
+              </BasicButton>
+              {showConfirmDelete && (
+                <Modal
+                  title={"Supprimer ?"}
+                  handleSave={handleDelete}
+                  handleClose={handleClose}
+                >
+                  <p>Êtes vous sûr de bien vouloir supprimer l'élément ?</p>
+                </Modal>
+              )}
+            </div>
           ) : null}
         </div>
         {url && (

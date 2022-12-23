@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "@components/layout/SearchBar/SearchBar";
 import PersonsList from "@components/PersonsListContainer/PersonsList/PersonsList";
 import { getPersonByName } from "@api/person.service";
+import Modal from "@components/layout/Modal/Modal";
 
 export default function PersonsListContainer({
   name,
@@ -20,6 +21,8 @@ export default function PersonsListContainer({
   isAdmin: boolean;
 }) {
   const [showSearch, setShowSearch] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [elementToDelete, setElementToDelete] = useState("");
 
   const searchBarQueryParams = {
     queryKey: ["persons"],
@@ -28,6 +31,20 @@ export default function PersonsListContainer({
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
+  };
+
+  const stageForDeletion = (id: string) => {
+    setElementToDelete(id);
+    setShowConfirmDelete(true);
+  };
+
+  const confirmDeletion = (id: string) => {
+    deletePerson(id);
+    setShowConfirmDelete(false);
+  };
+
+  const handleClose = () => {
+    setShowConfirmDelete(false);
   };
 
   return (
@@ -60,9 +77,18 @@ export default function PersonsListContainer({
       </div>
       <PersonsList
         persons={persons}
-        deletePerson={deletePerson}
+        deletePerson={stageForDeletion}
         isAdmin={isAdmin}
       />
+      {showConfirmDelete && (
+        <Modal
+          title={"Supprimer ?"}
+          handleSave={() => confirmDeletion(elementToDelete)}
+          handleClose={handleClose}
+        >
+          <p>Êtes vous sûr de bien vouloir supprimer l'élément ?</p>
+        </Modal>
+      )}
     </div>
   );
 }

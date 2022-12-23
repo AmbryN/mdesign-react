@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { BasicButton } from "@components/Buttons/Button";
 import { Input } from "@components/forms/Inputs";
+import Modal from "@components/layout/Modal/Modal";
 
 type Column = {
   header: string;
@@ -58,24 +59,36 @@ function DataTable({
   columns,
   rows,
   hasShowDetails,
-  hasUpdate,
-  hasDelete,
   handleUpdate,
   handleDelete,
 }: {
   columns: Column[];
   rows: any[];
   hasShowDetails?: boolean;
-  hasUpdate: boolean;
-  hasDelete: boolean;
-  handleUpdate: Function;
-  handleDelete: Function;
+  handleUpdate?: Function;
+  handleDelete?: Function;
 }) {
   const navigate = useNavigate();
   const [sortedRows, setSortedRows] = useState([] as any[]);
   const [filteredRows, setFilteredRows] = useState([] as any[]);
   const [sortType, setSortType] = useState("id");
   const [filter, setFilter] = useState("");
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [elementToDelete, setElementToDelete] = useState("");
+
+  const stageForDeletion = (id: string) => {
+    setElementToDelete(id);
+    setShowConfirmDelete(true);
+  };
+
+  const confirmDeletion = (id: string) => {
+    if (handleDelete) handleDelete(id);
+    setShowConfirmDelete(false);
+  };
+
+  const handleClose = () => {
+    setShowConfirmDelete(false);
+  };
 
   const sortRows = (type: string) => {
     const sorted: any[] = [...rows].sort((a, b) => {
@@ -159,7 +172,7 @@ function DataTable({
                 </button>
               </th>
             ))}
-            {(hasUpdate || hasDelete) && <th>Actions</th>}
+            {(handleUpdate || handleUpdate) && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -176,7 +189,7 @@ function DataTable({
                     : 0}
                 </td>
               ))}
-              {(hasUpdate || hasDelete) && (
+              {(handleUpdate || handleDelete) && (
                 <td label="Actions" id="actions">
                   {hasShowDetails && (
                     <BasicButton
@@ -186,7 +199,7 @@ function DataTable({
                       Voir
                     </BasicButton>
                   )}
-                  {hasUpdate && (
+                  {handleUpdate && (
                     <BasicButton
                       variant="warning"
                       onClick={() => handleUpdate(row.id)}
@@ -194,10 +207,10 @@ function DataTable({
                       Modifier
                     </BasicButton>
                   )}
-                  {hasDelete && (
+                  {handleDelete && (
                     <BasicButton
                       variant="danger"
-                      onClick={() => handleDelete(row.id)}
+                      onClick={() => stageForDeletion(row.id)}
                     >
                       Supprimer
                     </BasicButton>
@@ -208,6 +221,15 @@ function DataTable({
           ))}
         </tbody>
       </Table>
+      {handleDelete && showConfirmDelete && (
+        <Modal
+          title={"Supprimer ?"}
+          handleSave={() => confirmDeletion(elementToDelete)}
+          handleClose={handleClose}
+        >
+          <p>Êtes vous sûr de bien vouloir supprimer l'élément ?</p>
+        </Modal>
+      )}
     </div>
   );
 }

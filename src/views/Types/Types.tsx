@@ -44,12 +44,17 @@ function Types() {
   });
 
   // EVENT HANDLERS
+  const stageForDeletion = (id: string) => {
+    setElementToDelete(id);
+  };
+
   const handleDelete = (id: string) => {
     deleteQuery.mutate(id);
   };
 
   const handleClose = () => {
     setShowForm(false);
+    setShowConfirmDelete(false);
     setFormError({
       isError: false,
       message: "",
@@ -135,10 +140,7 @@ function Types() {
       <DataTable
         columns={tableColumns}
         rows={eventTypes!}
-        hasUpdate={false}
-        hasDelete={true}
         handleDelete={handleDelete}
-        handleUpdate={() => {}}
       />
     </BaseContainer>
   );

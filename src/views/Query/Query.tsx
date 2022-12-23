@@ -71,14 +71,7 @@ function Query() {
       {isError && <Alert errorMessage={error.message} />}
 
       {isFetched && (
-        <DataTable
-          columns={tableColumns}
-          rows={mDesignResults || []}
-          hasUpdate={false}
-          hasDelete={false}
-          handleUpdate={() => {}}
-          handleDelete={() => {}}
-        />
+        <DataTable columns={tableColumns} rows={mDesignResults || []} />
       )}
     </BaseContainer>
   );

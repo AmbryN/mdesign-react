@@ -220,9 +220,7 @@ function Addresses() {
       <DataTable
         columns={tableColumns}
         rows={addresses!}
-        hasUpdate={true}
         handleUpdate={handleUpdate}
-        hasDelete={true}
         handleDelete={handleDelete}
       />
     </BaseContainer>

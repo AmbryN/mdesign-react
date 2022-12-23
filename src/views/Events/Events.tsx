@@ -226,10 +226,7 @@ function Events() {
         columns={tableColumns}
         rows={events!}
         hasShowDetails={true}
-        hasUpdate={true}
         handleUpdate={handleUpdate}
-        hasDelete={false}
-        handleDelete={() => {}}
       />
     </BaseContainer>
   );
